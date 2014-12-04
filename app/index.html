@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+    <title>找数据 - Wandoulabs</title>
+
+    <!-- build:css styles/index.css -->
+    <link rel="stylesheet" href="vendors/realAdmin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="vendors/realAdmin/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="vendors/realAdmin/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="vendors/realAdmin/css/ace-fonts.css" />
+    <link rel="stylesheet" href="vendors/realAdmin/css/ace.min.css" />
+    <link rel="stylesheet" href="vendors/realAdmin/css/add-ons.min.css" />
+    <link rel="stylesheet" href="vendors/realAdmin/css/style.css" />
+
+    <link rel="stylesheet" href="components/bootstrap-daterangepicker/daterangepicker-bs2.css">
+    <link rel="stylesheet" href="components/angular-ui-select/dist/select.min.css">
+    <link rel="stylesheet" href="components/AngularJS-Toaster/toaster.css">
+    <link rel="stylesheet" href="components/angular-spinkit/build/angular-spinkit.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+</head>
+    <body>
+        <div ng-include="'templates/_base/header.html'"></div>
+        <div ng-include="'templates/_base/corp-metrics.html'"></div>
+
+        <!-- build:js scripts/vendor.js -->
+        <script src="components/jquery/jquery.min.js"></script>
+        <script src="components/underscore/underscore.js"></script>
+        <script src="components/underscore.string/dist/underscore.string.min.js"></script>
+        <script src="components/angular/angular.js"></script>
+
+        <script src="components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="components/angular-animate/angular-animate.js"></script>
+        <script src="components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+        <script src="components/AngularJS-Toaster/toaster.js"></script>
+        <script src="components/angular-spinkit/build/angular-spinkit.min.js"></script>
+
+        <!-- // highcharts -->
+        <script src="vendors/Highcharts-4.0.3/js/highcharts.src.js"></script>
+        <script src="vendors/Highcharts-4.0.3/js/highcharts-more.src.js"></script>
+        <script src="vendors/Highcharts-4.0.3/js/modules/exporting.src.js"></script>
+        <script src="components/highcharts-ng/dist/highcharts-ng.js"></script>
+        <!-- endbuild -->
+
+        <script src="vendors/realAdmin/plugins/moment/moment.min.js"></script>
+        <script src="vendors/realAdmin/plugins/autosize/jquery.autosize.min.js"></script>
+        <script src="vendors/realAdmin/plugins/gauge/gauge.min.js"></script>
+        <script src="vendors/realAdmin/plugins/daterangepicker/js/daterangepicker.min.js"></script>
+
+        <script src="vendors/realAdmin/plugins/flot/jquery.flot.min.js"></script>
+        <script src="vendors/realAdmin/plugins/flot/jquery.flot.resize.min.js"></script>
+        <script src="vendors/realAdmin/plugins/flot/jquery.flot.time.min.js"></script>
+        <script src="vendors/realAdmin/plugins/flot/jquery.flot.spline.min.js"></script>
+
+        <script src="scripts/fake.js"></script>
+    <!-- build:js scripts/app.js -->
+    <script type="text/javascript">
+        var app = angular.module('app', []);
+        app.run(function($timeout) {
+            $timeout(function() {
+                setUpDomEvents();
+            }, 1000);
+        });
+
+        app.controller('newUserRetentionTblCtrl', function($scope) {
+            $scope.header = ['DATE'];
+            _.each(_.range(1, 11), function(i, idx) {
+                $scope.header.push('DATE '+i);
+            });
+            $scope.data = [];
+            _.each(_.range(21, 27), function(i,idx) {
+                $scope.data[idx] = ['2014-11-'+i];
+                _.each(_.range(1, 11), function(ii) {
+                    $scope.data[idx].push(_.random(0, 100)+' %');
+                });
+            });
+        });
+
+        angular.bootstrap(document, ['app']);
+    </script>
+    <!-- endbuild -->
+    </body>
+</html>

@@ -1,0 +1,14 @@
+.tmp
+test
+dist
+deploy
+
+.DS_Store
+.sass-cache
+node_modules
+app/components
+app/styles/**/*.css
+app/vendors
+
+*.sublime-*
+.wdrc
