@@ -22,14 +22,14 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-    <body>
+    <body ng-init="$root.currentPage='corp'">
         <div ng-include="'templates/_base/header.html'"></div>
 
         <!-- Corp Page -->
-        <!-- <div ng-include="'templates/corp/index.html'"></div> -->
+        <div ng-include="'templates/corp/index.html'" ng-show="$root.currentPage==='corp'"></div>
 
         <!-- Vertical Page -->
-        <div ng-include="'templates/vertical/index.html'"></div>
+        <div ng-include="'templates/vertical/index.html'" ng-show="$root.currentPage==='vertical'"></div>
 
         <!-- build:js scripts/vendor.js -->
         <script src="components/jquery/jquery.min.js"></script>
