@@ -1,0 +1,25 @@
+<!-- start: Content -->
+<div class="main" style="padding: 80px;background: #fff;">
+
+    <!-- chart + metric card -->
+    <div class="row">
+        <table class="table table-bordered" ng-controller="verticalTableCtrl">
+            <thead>
+                <tr>
+                    <th ng-repeat="i in header">
+                        {{i}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in data">
+                    <td ng-repeat="cell in row track by $index" ng-bind-html="cell|fakeCell"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div><!--/row-->
+
+    <div class="row">
+        <img src="vendors/fake-NDLU.png" alt="">
+    </div>
+</div>
