@@ -1,0 +1,60 @@
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <i class="icon-bar-chart"></i><h2>Traffic &amp; Revenue</h2>
+        <div id="daterange" class="selectbox pull-right hidden-xs">
+            <i class="icon-calendar"></i>
+            <span>July 4, 2014 - August 2, 2014</span> <b class="caret"></b>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="index.html#months" role="tab" data-toggle="tab">Monthly</a></li>
+            <li class="hidden-xs"><a href="index.html#" role="tab" data-toggle="tab">Weekly</a></li>
+            <li class="hidden-xs"><a href="index.html#" role="tab" data-toggle="tab">Daily</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="months">
+                <div id="main-chart" style="height:390px"></div>
+            </div>
+            <div class="tab-pane" id="weeks">...</div>
+            <div class="tab-pane" id="days">...</div>
+        </div>
+
+    </div>
+
+    <div class="panel-footer">
+        <ul class="panel-footer-stats">
+            <li>
+                <canvas id="gauge-success" height=50 width=70></canvas>
+                <span class="number">148.125</span>
+                <span class="title">New users</span>
+            </li>
+            <li>
+                <canvas id="gauge-info" height=50 width=70></canvas>
+                <span class="number">452.352</span>
+                <span class="title">Pageviews</span>
+            </li>
+            <li>
+                <canvas id="gauge-warning" height=50 width=70></canvas>
+                <span class="number">2,19</span>
+                <span class="title">Pages / Visit</span>
+            </li>
+            <li>
+                <canvas id="gauge-danger" height=50 width=70></canvas>
+                <span class="number">59,83%</span>
+                <span class="title">Bounce Rate</span>
+            </li>
+            <li>
+                <canvas id="gauge-primary" height=50 width=70></canvas>
+                <span class="number">70,79%</span>
+                <span class="title">New Visits</span>
+            </li>
+        </ul>
+    </div>
+</div>

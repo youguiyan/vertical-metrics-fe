@@ -1,0 +1,29 @@
+<!-- start: Content -->
+<div class="main" style="padding: 80px;">
+    <!-- metric card -->
+    <div ng-include="'templates/corp/top-metrics-row.html'"></div>
+
+    <!-- chart + metric card -->
+    <div class="row">
+        <div class="col-lg-9">
+            <div ng-include="'templates/corp/main-chart-panel.html'"></div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+            <div ng-include="'templates/corp/side-metrics-card1.html'"></div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+            <div ng-include="'templates/corp/side-metrics-card2.html'"></div>
+        </div>
+    </div><!--/row-->
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div ng-include="'templates/corp/new-user-retention-table.html'"></div>
+        </div>
+        <div class="col-lg-6">
+            <div ng-include="'templates/corp/new-user-1th-week.html'"></div>
+        </div>
+    </div>
+</div>
