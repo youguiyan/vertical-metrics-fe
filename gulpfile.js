@@ -11,16 +11,16 @@ var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var templateCache = require('gulp-angular-templatecache');
+var ngAnnotate = require('gulp-ng-annotate');
 
 var rev = require('gulp-rev');
 var replace = require('gulp-replace');
 // https://github.com/jamesknelson/gulp-rev-replace - Todo
 
+var connect = require('gulp-connect');
+
 // Add Gulp remove console.log
-
 var del = require('del');
-
-var ngAnnotate = require('gulp-ng-annotate');
 
 var paths = {
     scripts: ['app/scripts/**/*.js', 'vendors/**/*.js'],
@@ -32,6 +32,10 @@ gulp.task('watch', function() {
     watch('app/scss/**/*.scss', function(files, cb) {
         gulp.start('compass', cb);
     });
+
+    // watch(['app/scss/**/*.scss', 'app/scripts/**/*.js', 'app/templates/**/*.html'], function(files, cb) {
+    //     gulp.start('')
+    // })
 });
 
 gulp.task('compass', function() {
@@ -95,6 +99,13 @@ gulp.task('buildCdn', ['build'], function() {
     gulp.src('dist/**/*')
         .pipe(replace('http://wx-api-test.secret-cn.com', 'http://secret-ajax.hortor.net'))
         .pipe(gulp.dest('release'));
+});
+
+gulp.task('connect', ['watch'], function() {
+    connect.server({
+        root: 'app',
+        livereload: true
+    });
 });
 
 // The default task (called when you run `gulp` from cli)
