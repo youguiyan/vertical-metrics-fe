@@ -70,7 +70,7 @@ app.filter('fakeCell', function($filter) {
                 return _.random(0, 100) / 100;
             },
             line: function() {
-                return '<div sparkline></div>'
+                return '<div sparkline></div>';
             }
         };
         return formatMap[val] ? formatMap[val]() : val;
@@ -79,7 +79,6 @@ app.filter('fakeCell', function($filter) {
 
 app.directive('sparkline', function() {
     return {
-        template: '<div></div>',
         link: function(scope, element, attrs) {
             var data = _.map(_.range(1, 10), function(i) {
                 return [i, _.random(20, 100)];

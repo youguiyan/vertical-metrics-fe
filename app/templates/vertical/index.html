@@ -13,7 +13,10 @@
             </thead>
             <tbody>
                 <tr ng-repeat="row in data">
-                    <td ng-repeat="cell in row track by $index" ng-bind-html="cell|fakeCell"></td>
+                    <td ng-repeat="cell in row track by $index">
+                        <span ng-bind-html="cell|fakeCell" ng-if="cell != 'line'"></span>
+                        <span sparkline ng-if="cell == 'line'"></span>
+                    </td>
                 </tr>
             </tbody>
         </table>
