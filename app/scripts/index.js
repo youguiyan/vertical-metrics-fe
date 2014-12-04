@@ -85,7 +85,7 @@ app.directive('sparkline', function() {
             });
             $(element).sparkline(data, {
                 width: 200, //Width of the chart - Defaults to 'auto' - May be any valid css width - 1.5em, 20px, etc (using a number without a unit specifier won't do what you want) - This option does nothing for bar and tristate chars (see barWidth)
-                height: 30, //Height of the chart - Defaults to 'auto' (line height of the containing tag)
+                height: 130, //Height of the chart - Defaults to 'auto' (line height of the containing tag)
                 lineColor: '#2FABE9', //Used by line and discrete charts to specify the colour of the line drawn as a CSS values string
                 fillColor: '#f2f7f9', //Specify the colour used to fill the area under the graph as a CSS value. Set to false to disable fill
                 spotColor: '#467e8c', //The CSS colour of the final value marker. Set to false or an empty string to hide it

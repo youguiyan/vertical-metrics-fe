@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 
-var less = require('gulp-less');
+var compass = require('gulp-compass');
 var watch = require('gulp-watch');
 var autoprefixer = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');
@@ -29,13 +29,19 @@ var paths = {
 };
 
 gulp.task('watch', function() {
-    watch('app/less/**/*.less', function(files, cb) {
-        gulp.start('less', cb);
+    watch('app/scss/**/*.scss', function(files, cb) {
+        gulp.start('compass', cb);
     });
 });
 
-gulp.task('less', function() {
-    gulp.src('app/less/main.less').pipe(less()).pipe(autoprefixer()).pipe(gulp.dest('app/styles'));
+gulp.task('compass', function() {
+    gulp.src('app/scss/main.scss')
+        .pipe(compass({
+            config_file: './config.rb',
+            css: "app/styles",
+            sass: "app/scss"
+        }))
+        .pipe(autoprefixer()).pipe(gulp.dest('app/styles'));
 });
 
 gulp.task('ngtemplate', function() {
@@ -49,15 +55,6 @@ gulp.task('ngtemplate', function() {
 
 gulp.task('usemin', ['ngtemplate'], function() {
     gulp.src('app/index.html')
-        .pipe(usemin({
-            css: [minifyCss(), 'concat'],
-            html: [minifyHtml({
-                empty: true
-            })],
-            js: [ngAnnotate(), uglify()]
-        }))
-        .pipe(gulp.dest('dist/'));
-    gulp.src('app/release_index.html')
         .pipe(usemin({
             css: [minifyCss(), 'concat'],
             html: [minifyHtml({

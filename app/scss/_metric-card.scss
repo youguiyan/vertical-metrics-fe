@@ -1,0 +1,140 @@
+@import "compass";
+
+.metric-card-list {
+  padding: 0;
+  margin-bottom: 30px;
+  list-style: none;
+  background: white;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+.metric-card {
+  height: 150px;
+  text-align: right;
+  padding: 15px;
+  border-right: 1px solid #d1d4d7;
+  margin-right: -1px;
+  font-size: 14px;
+  position: relative;
+  display: table-cell;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &:hover i {
+    font-size: 60px;
+    opacity: .5;
+    -ms-transform: rotate(-5deg);
+    /* IE 9 */
+
+    -webkit-transform: rotate(-5deg);
+    /* Chrome, Safari, Opera */
+
+    transform: rotate(-5deg);
+  }
+
+  i {
+    font-size: 44px;
+    color: #d1d4d7;
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+  }
+
+  div {
+    text-align: left;
+
+    &.number {
+      margin-top: 60px;
+      font-size: 24px;
+    }
+    &.title {
+      color: #d1d4d7;
+      margin-top: -2px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 11px;
+    }
+    &.progress {
+      margin-bottom: 0;
+      height: 4px;
+    }
+  }
+}
+
+.inline-metric-card {
+  @include pie-clearfix;
+  .inline-chart-body {
+    height: 130px;
+    line-height: 65px;
+    font-size: 20px;
+  }
+  .ctr-footer {
+    line-height: 40px;
+    font-size: 18px;
+  }
+  .ctr-footer>div, .inline-chart-body>div {
+    width: 50%;
+    display: inline-block;
+    float: left;
+    &>span{
+      display: block;
+    }
+  }
+  .ctr-footer>span, .inline-chart-body>span {
+    width: 50%;
+    display: inline-block;
+    float: left;
+  }
+}
+
+/* tweak */
+.metric-card {
+    div.number {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    div.title {
+        display: inline-block;
+        width: 50%;
+        font-size: 18px;
+        float: left;
+    }
+    div.contrast {
+        display: inline-block;
+        width: 50%;
+
+        p {
+            margin: 0 0 10px;
+            white-space: nowrap;
+        }
+    }
+}
+
+/* @media (max-width: 479px) {
+  ul.statistics {
+    margin-bottom: 10px;
+  }
+  ul.statistics li {
+    border-top: 1px solid #d1d4d7;
+    border-right: 1px solid #d1d4d7;
+    display: block !important;
+    width: 50% !important;
+    float: left;
+  }
+  ul.statistics li:nth-child(1),
+  ul.statistics li:nth-child(2) {
+    border-top: none;
+  }
+  ul.statistics li:nth-child(2n) {
+    border-right: none;
+  }
+} */
