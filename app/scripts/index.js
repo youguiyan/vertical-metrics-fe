@@ -8,11 +8,16 @@ var app = angular.module('app', [
     'angular-spinkit',
     'toaster'
 ]);
-
-app.run(function($timeout) {
+_sparkHeight = 140;
+app.run(function($timeout, $rootScope) {
     $timeout(function() {
         setUpDomEvents();
     }, 1000);
+    if ($rootScope.currentPage == 'corp') {
+        _sparkHeight = 140;
+    } else {
+        _sparkHeight = 20;
+    }
 });
 
 app.controller('newUserRetentionTblCtrl', function($scope) {
@@ -48,12 +53,27 @@ app.controller('newUser1thWeeklCtrl', function($scope) {
     });
 });
 
-app.controller('verticalTableCtrl', function($scope) {
-    $scope.header = ['', 'DLU Line', 'DLU', 'Distribution', 'NDLU', 'New User 1th Week Relation', 'Weekly Launch Retention', 'DLU%', 'Distribution%', 'Distribution/DLU', 'New User/DLU'];
+var commonMetricType = ['number', 'number', 'number', 'percent', 'percent', 'percent', 'percent', 'ratio', 'percent'];
+var commonMetricName = ['DLU', 'Distribution', 'NDLU', 'New User 1th Week Relation', 'Weekly Launch Retention', 'DLU%', 'Distribution%', 'Distribution/DLU', 'New User/DLU'];
+app.controller('verticalTableCtrl', function($scope, $modal) {
+    $scope.header = ['', 'DLU Line'].concat(commonMetricName);
 
     var verticalArr = ['WDJ', 'Apps', 'Video', 'Games', 'Music', 'Startpage', 'Search'];
     $scope.data = _.map(verticalArr, function(i) {
-        return [i, 'line', 'number', 'number', 'number', 'percent', 'percent', 'percent', 'percent', 'ratio', 'percent'];
+        return [i, 'line'].concat(commonMetricType);
+    });
+
+    $scope.openPopup = function() {
+        var modalInstance = $modal.open({
+            templateUrl: 'templates/vertical/popup.html',
+            controller: 'popupCtrl'
+        });
+    };
+});
+
+app.controller('popupCtrl', function($scope) {
+    $scope.popupData = _.map(commonMetricName, function(i, idx) {
+        return ['line', i, commonMetricType[idx]];
     });
 });
 
@@ -85,7 +105,7 @@ app.directive('sparkline', function() {
             });
             $(element).sparkline(data, {
                 width: 200, //Width of the chart - Defaults to 'auto' - May be any valid css width - 1.5em, 20px, etc (using a number without a unit specifier won't do what you want) - This option does nothing for bar and tristate chars (see barWidth)
-                height: 130, //Height of the chart - Defaults to 'auto' (line height of the containing tag)
+                height: _sparkHeight, //Height of the chart - Defaults to 'auto' (line height of the containing tag)
                 lineColor: '#2FABE9', //Used by line and discrete charts to specify the colour of the line drawn as a CSS values string
                 fillColor: '#f2f7f9', //Specify the colour used to fill the area under the graph as a CSS value. Set to false to disable fill
                 spotColor: '#467e8c', //The CSS colour of the final value marker. Set to false or an empty string to hide it

@@ -1,0 +1,8 @@
+<table class="table table-bordered">
+    <tr ng-repeat="row in popupData">
+        <td ng-repeat="cell in row">
+            <span ng-bind-html="cell|fakeCell" ng-if="cell != 'line'"></span>
+            <span sparkline ng-if="cell == 'line'"></span>
+        </td>
+    </tr>
+</table>
