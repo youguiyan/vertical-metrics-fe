@@ -1,15 +1,15 @@
 <ul class="metric-card-list">
-    <li class="metric-card" ng-repeat="i in [1,2,23,4,5,6]">
+    <li class="metric-card" ng-repeat="i in metricList">
         <i class="icon-users"></i>
         <div class="number">
-            87.500
+            {{i.data[0]}}
             <i class="fa fa-level-up"></i>
         </div>
         <div>
-            <div class="title">Visitors</div>
+            <div class="title">{{i.metricname}}</div>
             <div class="contrast">
-                <p> 环比：<span>4.42%</span></p>
-                <p> 同比：<span>4.42%</span></p>
+                <p> 环比：<span>{{i.data[1]|percentize}}</span></p>
+                <p ng-if="i.data[2]"> 同比：<span>{{i.data[2]|percentize}}</span></p>
             </div>
         </div>
     </li>

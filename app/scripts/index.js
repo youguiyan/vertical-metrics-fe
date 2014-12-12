@@ -1,3 +1,14 @@
+/* Todo:
+    接口化
+    配置化
+ */
+/*
+    策略： 直接利用 jQuery 的插件， 在必要的时候，去取值和监听值变化驱动 UI 改变等~
+ */
+// retentionData ? metricid = 72 & timespan = 10080 & dateTime = 20141124
+window.APIPREFIX = 'http://apps-datatools0-bgp0.hy01.wandoujia.com:8000/';
+_sparkHeight = 140;
+// bunchData, retentionData, metricData
 var app = angular.module('app', [
     'ngSanitize',
     'ngAnimate',
@@ -8,7 +19,6 @@ var app = angular.module('app', [
     'angular-spinkit',
     'toaster'
 ]);
-_sparkHeight = 140;
 app.run(function($timeout, $rootScope) {
     $timeout(function() {
         setUpDomEvents();
@@ -19,62 +29,47 @@ app.run(function($timeout, $rootScope) {
         _sparkHeight = 20;
     }
 });
-
-app.controller('newUserRetentionTblCtrl', function($scope) {
-    $scope.header = ['DATE'];
-    _.each(_.range(1, 11), function(i, idx) {
-        $scope.header.push('DATE ' + i);
-    });
-    $scope.data = [];
-    _.each(_.range(21, 27), function(i, idx) {
-        $scope.data[idx] = ['2014-11-' + i];
-        _.each(_.range(1, 11), function(ii) {
-            $scope.data[idx].push(_.random(0, 100) + ' %');
-        });
-    });
+app.factory('$notice', function() {
+    return {
+        success: function() {}
+    }
 });
+app.factory('apiHelperInterceptor', function($q, $notice) {
+    function requestHandler() {
+        // console.log(arguments);
+    }
 
-app.controller('newUser1thWeeklCtrl', function($scope) {
-    $scope.header = ['Week'];
-    _.each(_.range(1, 8), function(i, idx) {
-        if (idx === 0) {
-            $scope.header.push('Initial');
-        } else {
-            $scope.header.push(i);
+    function responseErrorHandler(response) {
+        /*try {
+            $notice.error('status-' + response.status + ': ' +
+                (response.config.url || '') + '<br>' + (response.data.msg || ', 接口出问题啦!'));
+        } catch (e) {
+            console.log('Err in apiHelperInterceptor: ' + e);
         }
-    });
+        return $q.reject(response);*/
+    }
 
-    $scope.data = [];
-    _.each(_.range(21, 28), function(i, idx) {
-        $scope.data[idx] = ['2014-11-' + i];
-        _.each(_.range(0, (idx + 1)), function(ii) {
-            $scope.data[idx].push(_.random(100, 2000));
-        });
-    });
-});
+    function responseHandler(response) {
+        if (response.config.url.indexOf('/api/') > -1) {
+            if (_.contains(['PUT', 'POST', 'DELETE'], response.config.method)) {
+                $notice.success('操作成功！');
+            }
+            if (response.data.data) {
+                return response.data.data;
+            } else {
+                return response.data;
+            }
+        }
+        return response;
+    }
 
-var commonMetricType = ['number', 'number', 'number', 'percent', 'percent', 'percent', 'percent', 'ratio', 'percent'];
-var commonMetricName = ['DLU', 'Distribution', 'NDLU', 'New User 1th Week Relation', 'Weekly Launch Retention', 'DLU%', 'Distribution%', 'Distribution/DLU', 'New User/DLU'];
-app.controller('verticalTableCtrl', function($scope, $modal) {
-    $scope.header = ['', 'DLU Line'].concat(commonMetricName);
-
-    var verticalArr = ['WDJ', 'Apps', 'Video', 'Games', 'Music', 'Startpage', 'Search'];
-    $scope.data = _.map(verticalArr, function(i) {
-        return [i, 'line'].concat(commonMetricType);
-    });
-
-    $scope.openPopup = function() {
-        var modalInstance = $modal.open({
-            templateUrl: 'templates/vertical/popup.html',
-            controller: 'popupCtrl'
-        });
+    return {
+        responseError: responseErrorHandler,
+        response: responseHandler,
+        request: requestHandler
     };
-});
-
-app.controller('popupCtrl', function($scope) {
-    $scope.popupData = _.map(commonMetricName, function(i, idx) {
-        return ['line', i, commonMetricType[idx]];
-    });
+}).config(function($httpProvider) {
+    // $httpProvider.interceptors.push('apiHelperInterceptor');
 });
 
 app.filter('fakeCell', function($filter) {
@@ -127,5 +122,3 @@ app.filter('percentize', ['$filter',
         };
     }
 ]);
-
-angular.bootstrap(document, ['app']);

@@ -1,25 +1,30 @@
 <!-- start: Content -->
-<div class="main" style="padding: 80px;">
+<div class="main" style="padding: 80px;" ng-controller="idxCtrl">
     <!-- metric card -->
-    <div ng-include="'templates/corp/top-metrics-row.html'"></div>
+    <div ng-include="'templates/corp/top-metrics-row.html'"
+        ng-controller="bunchMetricsOneCtrl"></div>
 
     <!-- chart + metric card -->
     <div class="row">
         <div class="col-lg-9">
-            <div ng-include="'templates/corp/main-chart-panel.html'"></div>
+            <div ng-include="'templates/corp/main-chart-panel.html'"
+                ng-controller="mainChartCtrl"></div>
         </div>
 
         <div class="col-lg-3 col-sm-6" ng-repeat="i in [1, 2, 3]">
-            <div ng-include="'templates/corp/side-metrics-card.html'"></div>
+            <div ng-include="'templates/corp/side-metrics-card.html'"
+                ng-controller="bunchMetricsTwoCtrl"></div>
         </div>
     </div><!--/row-->
 
     <div class="row">
         <div class="col-lg-6">
-            <div ng-include="'templates/corp/new-user-retention-table.html'"></div>
+            <div ng-include="'templates/corp/new-user-retention-table.html'"
+                ng-controller="newUserRetentionTblCtrl"></div>
         </div>
         <div class="col-lg-6">
-            <div ng-include="'templates/corp/new-user-1th-week.html'"></div>
+            <div ng-include="'templates/corp/new-user-1th-week.html'"
+                ng-controller="newUser1thWeeklCtrl"></div>
         </div>
     </div>
 </div>

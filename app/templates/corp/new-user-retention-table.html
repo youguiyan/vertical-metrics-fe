@@ -1,4 +1,4 @@
-<table class="table table-bordered" ng-controller="newUserRetentionTblCtrl">
+<table class="table table-bordered">
     <thead>
         <tr>
             <th ng-repeat="i in header">
@@ -9,7 +9,7 @@
     <tbody>
         <tr ng-repeat="row in data">
             <td ng-repeat="cell in row track by $index">
-                {{cell}}
+                {{($index == 0) ? cell:(cell|percentize)}}
             </td>
         </tr>
     </tbody>
