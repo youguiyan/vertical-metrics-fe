@@ -35,16 +35,18 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th ng-repeat="i in header">
+                    <th ng-repeat="i in names track by $index">
                         {{i}}
                     </th>
                 </tr>
             </thead>
             <tbody ng-click="openPopup()">
                 <tr ng-repeat="row in data">
-                    <td ng-repeat="cell in row track by $index">
-                        <span ng-bind-html="cell|fakeCell" ng-if="cell != 'line'"></span>
-                        <span sparkline ng-if="cell == 'line'"></span>
+                    <td ng-repeat="cell in row track by $index" ng-switch on="types[$index]">
+                        <span ng-switch-when="line" sparkline></span>
+                        <span ng-switch-when="ratio">{{cell|percentize}}</span>
+                        <span ng-switch-when="origin">{{cell|number}}</span>
+                        <span ng-switch-default>{{cell}}</span>
                     </td>
                 </tr>
             </tbody>
