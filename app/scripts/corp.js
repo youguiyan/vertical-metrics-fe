@@ -1,59 +1,113 @@
-app.controller('idxCtrl', function($scope, $rootScope) {
-    /*
-        Global ViewModel Data:
-            dimension.isCheat, dimension.userType
-            dateTime
-            timespan
-            also: selectedMetrics
-    */
-    /*
-        Sub Ctrls:
-            bunchMetricsOneCtrl
-            bunchMetricsTwoCtrl
-            mainChartCtrl
-            retentionTableCtrl
-    */
+function getPrevDay() {
+    var x = new Date().getTime();
+    return new Date(x - 1000 * 3600 * 24);
+}
+
+function getPrevMonday() {
+    return moment().subtract(new Date().getDay() + 6, 'days').toDate();
+}
+
+function getPrevMonth() {
+    var x = new Date();
+    x.setDate(1);
+    x.setMonth(x.getMonth() - 1);
+    return x;
+}
+
+app.controller('idxCtrl', function($scope, $rootScope, $filter) {
     // fake states
-    $scope.dateTime = '20141124'; // metricId - 72(retention lu wdj week), 61(retention day)
-    $scope.timespan = '1440'; // 10080
-    $scope.dimension = {
-        isCheat: 'no',
-        userType: 'new'
-    };
+    $scope.dateTime = $filter('date')(getPrevDay(), 'yyyyMMdd');
+    $scope.timespan = '1440'; // default day mode
 
     $scope.getBaseVm = function() {
         return _.pick($scope, 'dateTime', 'timespan');
     };
 
     $scope.getBaseDimension = function() {
-        return _.pick($scope, 'dimension');
+        return _.pick($scope, 'dimension', 'dateTime', 'timespan');
     };
 
     // $on 'dimensionChanged', 'timespan', 'dateTime'
-    /*$scope.$watch(function() {
-        return [$scope.timespan, $scope.dateTime];
-    }, function(v) {
+    $scope.$watch('dateTime', function(v) {
         if (!v) return;
-        $scope.$emit('baseVmChanged', $scope.getBaseVm());
-    }, true);*/
+        $scope.$broadcast('baseDateTimeChanged', {});
+    });
+
+    // set datepicker jquery plugin
+    $scope.$watch('timespan', function(timespan) {
+        if (!timespan) return;
+        var $datePicker = $('.date-picker');
+        var baseOpt = {
+            autoclose: true,
+            todayHighlight: true,
+            endDate: new Date()
+        };
+        var timespanDPoptionMap = {
+            1440: _.extend({}, baseOpt, {
+                format: 'yyyy-mm-dd'
+            }),
+            10080: _.extend({}, baseOpt, {
+                format: 'yyyy-mm-dd',
+                daysOfWeekDisabled: "0,2,3,4,5,6"
+            }),
+            43200: _.extend({}, baseOpt, {
+                format: 'yyyy-mm',
+                minViewMode: 'months',
+                startView: 'months'
+            })
+        };
+        var prevFnMap = {
+            1440: getPrevDay,
+            10080: getPrevMonday,
+            43200: getPrevMonth
+        };
+        $datePicker.datepicker('remove');
+        $datePicker.datepicker(timespanDPoptionMap[timespan]).on('changeDate', function(e) {
+            $scope.dateTime = e.format().replace(/-/g, '');
+            if (!$scope.$$phase) {
+                //$digest or $apply
+                $scope.$apply();
+            }
+        });
+        $datePicker.datepicker('setDate', prevFnMap[timespan].call());
+        $scope.$broadcast('baseTimeSpanChanged', {});
+    }, true);
 
     // slider ui for dimension select
     $scope.$watch('dimension', function(v) {
         if (!v) return;
-        $rootScope.$emit('dimensionChanged', v);
-        $rootScope.$emit('baseVmChanged', $scope.getBaseVm());
+        $rootScope.$broadcast('dimensionChanged', v);
     });
-
-    // click metric card to toggle select status
-    $scope.toggleSelect = function(metricid) {
-        // metricSelectedMap -> {metricId: <isSelected>}
-        $scope.metricSelectedMap[metricid] = !($scope.metricSelectedMap[metricid]);
+    $scope.dimension = {
+        isCheat: '', // default all value
+        isNewUser: ''
     };
-    $scope.$watch('metricSelectedMap', function(v) {
+    $scope.isCheatOptions = [
+        ['0', '非作弊'],
+        ['1', '作弊'],
+        ['', '全部']
+    ];
+    $scope.isNewUserOptions = [
+        ['0', '老用户'],
+        ['1', '新用户'],
+        ['', '全部']
+    ];
+    $scope.timespanOptions = [
+        ['1440', '天'],
+        ['10080', '周']
+    ];
+
+
+    $scope.metricList = [];
+    // click metric card to toggle select status
+    $scope.toggleSelect = function(i) {
+        i.selected = !i.selected;
+    };
+    $scope.$watch('metricList', function(v) {
         if (!v) return;
-        $rootScope.$emit('selectedMetricsChange', _.filter(v, function(v, k) {
-            return k;
-        }));
+        $rootScope.$broadcast('selectedMetricsChange', _.pluck(_.filter(v, function(v) {
+            return v.selected;
+        }), 'metricid'));
     }, true);
 });
 
@@ -61,61 +115,156 @@ app.controller('bunchMetricsOneCtrl', function($scope, $http) {
     function fetchData() {
         $http.get(APIPREFIX + 'bunchData', {
             params: _.extend({}, $scope.getBaseVm(), {
-                bunchid: 1,
-                datatype: 'dailyavg'
+                bunchid: 1
             })
         }).then(function(r) {
-            // Attention please
-            $scope.metricList = r.data;
-            var metricSelectedMap = {};
             _.each(r.data, function(i) {
-                metricSelectedMap[i.metricid] = i.selected || false;
+                i.selected = _.isUndefined(i.selected) ? false : _.isUndefined(i.selected);
+                i.type = 'one';
             });
-            $scope.$parent.metricSelectedMap = metricSelectedMap;
+            $scope.$parent.metricList = _.filter($scope.$parent.metricList, function(i) {
+                return i.type == 'two';
+            }).concat(r.data);
         });
     }
     fetchData();
 
-    $scope.$on('baseVmChanged', fetchData);
+    $scope.$on('baseDateTimeChanged', fetchData);
+    $scope.$on('baseTimeSpanChanged', fetchData);
+    $scope.$on('dimensionChanged', fetchData);
 });
 
 app.controller('bunchMetricsTwoCtrl', function($scope, $http) {
     function fetchData() {
         $http.get(APIPREFIX + 'bunchData', {
-            params: _.extend({}, $scope.getBaseVm(), {
+            params: {
+                dateTime: $scope.$parent.dateTime,
+                timespan: $scope.$parent.timespan,
                 bunchid: 2
-            })
+            }
         }).then(function(r) {
-            $scope.metricList = r.data;
+            _.each(r.data, function(i) {
+                i.selected = _.isUndefined(i.selected) ? false : _.isUndefined(i.selected);
+                i.type = 'two';
+            });
+            $scope.$parent.metricList = _.filter($scope.$parent.metricList, function(i) {
+                return i.type == 'one';
+            }).concat(r.data);
         });
     }
     fetchData();
 
-    $scope.$on('baseVmChanged', fetchData); // omit dimension change?!
+    $scope.$on('baseDateTimeChanged', fetchData);
+    $scope.$on('baseTimeSpanChanged', fetchData);
 });
 
-app.controller('mainChartCtrl', function($scope, $http, $q) {
+app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
     $scope.selectedMetrics = [1];
+    $scope.dateTimeStart = $filter('date')(getPrevMonth(), 'yyyyMMdd');
+    $scope.dateTimeEnd = $filter('date')(getPrevDay(), 'yyyyMMdd');
+    $scope.timespan = 1440;
+    var chartOptions = {
+        options: {
+            chart: {
+                type: 'spline',
+                zoomType: 'x'
+            }
+        },
+        series: [],
+        xAxis: {
+            type: 'datetime'
+        },
+        title: {
+            text: ""
+        },
+        loading: false,
+        lang: {
+            noData: '没有查询到相关数据'
+        },
+        noData: {
+            style: {
+                fontSize: '18px',
+                color: '#303030'
+            }
+        },
+        plotOptions: {
+            series: {
+                connectNulls: true
+            }
+        },
+        tooltip: {
+            crosshairs: true,
+            shared: true
+        },
+        credits: {
+            enabled: false
+        },
+        yAxis: {
+            title: {
+                text: null
+            }
+        }
+    };
+
+    $timeout(function() {
+        $('#daterange').daterangepicker({
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    'Last 7 Days': [moment().subtract('days', 6), moment()],
+                    'Last 30 Days': [moment().subtract('days', 29), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                },
+                startDate: moment().subtract('days', 29),
+                endDate: moment()
+            },
+            function(start, end) {
+                $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $scope.dateTimeEnd = end.format('YYYYMMDD');
+                $scope.dateTimeStart = start.format('YYYYMMDD')
+                fetchData();
+            });
+    }, 400);
 
     function fetchData() {
-        $q.all(_.map([], function(metricid) {
+        // Todo: diff  selectedMetrics? to mini updates series?!
+        $q.all(_.map($scope.selectedMetrics, function(metricid) {
             return $http.get(APIPREFIX + 'metricData', {
-                params: _.extend({}, $scope.getBaseVm(), {
+                params: _.extend({}, _.pick($scope, 'dateTimeStart', 'dateTimeEnd', 'timespan'), {
                     metricid: metricid
                 })
             })
-        })).then(function(datas) {
-            // prepare for echarts?!
+        })).then(function(resps) {
+            chartOptions.series = _.map(resps, function(resp) {
+                if (resp.data.data.length) {
+                    return {
+                        pointInterval: 86400000, // one day milliseconds
+                        pointStart: 1418367363073,
+                        data: _.map(resp.data.data, function(i) {
+                            return +(i);
+                        }),
+                        name: resp.data.name
+                    };
+                } else {
+                    return {};
+                }
+            });
+            $('#main-chart').highcharts(chartOptions);
         });
     }
     fetchData();
 
-    // selectedMetricsChange / or change event ? !baseVmChanged
-    $scope.$on('baseVmChanged', fetchData);
-    $scope.$on('selectedMetricsChange', function(e) {
-        $scope.selectedMetrics = e;
+    // $scope.$on('baseVmChanged', fetchData);
+    $scope.$on('dimensionChanged', fetchData);
+
+    $scope.$on('selectedMetricsChange', function(e, v) {
+        if (!v) return;
+        $scope.selectedMetrics = v;
+        // throttledFetch();
         fetchData();
     });
+    // throttledFetch = _.throttle(_.delay(fetchData, 500), 3000);
 });
 
 app.controller('newUserRetentionTblCtrl', function($scope, $http) {
@@ -126,38 +275,42 @@ app.controller('newUserRetentionTblCtrl', function($scope, $http) {
         });
 
         $http.get(APIPREFIX + 'retentionData', {
-            params: _.extend({}, $scope.getBaseVm(), {
-                metricid: 61
-            })
+            params: {
+                dateTime: $scope.$parent.dateTime,
+                metricid: 61,
+                timespan: 1440
+            }
         }).then(function(r) {
             $scope.data = r.data.data;
+            $scope.name = r.data.name;
         });
     }
     fetchData();
 
-    $scope.$on('baseVmChanged', fetchData);
+    $scope.$on('baseDateTimeChanged', fetchData);
+    $scope.$on('dimensionChanged', fetchData);
 });
 
 app.controller('newUser1thWeeklCtrl', function($scope, $http) {
     function fetchData() {
         $scope.header = ['Week'];
-        _.each(_.range(1, 8), function(i, idx) {
-            if (idx === 0) {
-                $scope.header.push('Initial');
-            } else {
-                $scope.header.push(i);
-            }
+        _.each(_.range(1, 6), function(i, idx) {
+            $scope.header.push('Week ' + i);
         });
 
         $http.get(APIPREFIX + 'retentionData', {
-            params: _.extend({}, $scope.getBaseVm(), {
-                metricid: 72
+            params: _.extend({}, {
+                dateTime: $scope.$parent.dateTime,
+                metricid: 72,
+                timespan: 10080
             })
         }).then(function(r) {
             $scope.data = r.data.data;
+            $scope.name = r.data.name;
         });
     }
     fetchData();
 
-    $scope.$on('baseVmChanged', fetchData);
+    $scope.$on('baseDateTimeChanged', fetchData);
+    $scope.$on('dimensionChanged', fetchData);
 });

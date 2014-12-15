@@ -1,5 +1,36 @@
 <!-- start: Content -->
 <div class="main" style="padding: 80px;" ng-controller="idxCtrl">
+    <!-- <div muce-include="templates/_base/top-opbar.html"></div> -->
+    <div class="top-opbar">
+        <label>
+            是否作弊
+            <select name="isCheat" id="isCheat" ng-model="dimension.isCheat"
+                ng-options="i[0] as i[1] for i in isCheatOptions"></select>
+        </label>
+
+        <label>
+            新老用户
+            <select name="isNewUser" id="isNewUser" ng-model="dimension.isNewUser"
+                ng-options="i[0] as i[1] for i in isNewUserOptions"></select>
+        </label>
+
+        <div data-toggle="buttons-radio" class="btn-group">
+            <button class="btn" type="button"
+                ng-class="{'active': $parent.timespan==i[0]}"
+                ng-click="$parent.timespan=i[0];"
+                ng-repeat="i in timespanOptions">
+                {{i[1]}}
+            </button>
+        </div>
+
+        <div class="input-append datepicker">
+            <input class="date-picker" type="text" />
+            <span class="add-on">
+                <i class="icon-calendar"></i>
+            </span>
+        </div>
+    </div>
+
     <!-- metric card -->
     <div ng-include="'templates/corp/top-metrics-row.html'"
         ng-controller="bunchMetricsOneCtrl"></div>
@@ -11,8 +42,8 @@
                 ng-controller="mainChartCtrl"></div>
         </div>
 
-        <div class="col-lg-3 col-sm-6" ng-repeat="i in [1, 2, 3]">
-            <div ng-include="'templates/corp/side-metrics-card.html'"
+        <div class="col-lg-3 col-sm-6">
+            <div ng-include="'templates/corp/side-metrics-column.html'"
                 ng-controller="bunchMetricsTwoCtrl"></div>
         </div>
     </div><!--/row-->

@@ -1,0 +1,19 @@
+<div class="metric-card-list">
+    <div class="panel panel-default inline-metric-card metric-card"
+        ng-repeat="i in metricList|filter:{type: 'two'}" ng-switch on="i.metrictype"
+        ng-click="toggleSelect(i)" ng-class="{'selected': i.selected}">
+
+        <div class="inline-chart-body" ng-switch-when="origin">
+            <div sparkline width="160" height="64"></div>
+            <div>
+                <span>{{i.data[0]|number}}</span>
+                <span>{{i.metricname}}</span>
+            </div>
+        </div>
+
+        <div class="ctr-footer" ng-switch-when="ratio">
+            <span>{{i.metricname}}%</span>
+            <span class="pull-right">{{i.data[0]|percentize}}</span>
+        </div>
+    </div>
+</div>

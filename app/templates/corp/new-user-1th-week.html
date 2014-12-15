@@ -1,3 +1,4 @@
+<p>{{name}}</p>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -9,7 +10,10 @@
     <tbody>
         <tr ng-repeat="row in data">
             <td ng-repeat="cell in row track by $index">
-                {{cell}}
+                <span ng-show="cell">
+                    {{($index == 0) ? cell : (cell|percentize)}}
+                </span>
+                <span ng-show="!cell"></span>
             </td>
         </tr>
     </tbody>

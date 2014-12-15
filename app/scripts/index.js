@@ -99,8 +99,8 @@ app.directive('sparkline', function() {
                 return [i, _.random(20, 100)];
             });
             $(element).sparkline(data, {
-                width: 200, //Width of the chart - Defaults to 'auto' - May be any valid css width - 1.5em, 20px, etc (using a number without a unit specifier won't do what you want) - This option does nothing for bar and tristate chars (see barWidth)
-                height: _sparkHeight, //Height of the chart - Defaults to 'auto' (line height of the containing tag)
+                width: (+attrs.width) || 200, //Width of the chart - Defaults to 'auto' - May be any valid css width - 1.5em, 20px, etc (using a number without a unit specifier won't do what you want) - This option does nothing for bar and tristate chars (see barWidth)
+                height: (+attrs.height) || 40, //Height of the chart - Defaults to 'auto' (line height of the containing tag)
                 lineColor: '#2FABE9', //Used by line and discrete charts to specify the colour of the line drawn as a CSS values string
                 fillColor: '#f2f7f9', //Specify the colour used to fill the area under the graph as a CSS value. Set to false to disable fill
                 spotColor: '#467e8c', //The CSS colour of the final value marker. Set to false or an empty string to hide it
@@ -111,6 +111,19 @@ app.directive('sparkline', function() {
             });
         }
     }
+});
+
+app.directive('muceInclude', function muceInclude($http, $templateCache, $compile) {
+    // behavior like ngInclude but without create a new scope
+    return function(scope, element, attrs) {
+        var templatePath = attrs.muceInclude;
+        $http.get(templatePath, {
+            cache: $templateCache
+        }).success(function(response) {
+            var contents = element.html(response).contents();
+            $compile(contents)(scope);
+        });
+    };
 });
 
 app.filter('percentize', ['$filter',

@@ -1,22 +1,6 @@
 window.setUpDomEvents = function() {
     $(document).ready(function() {
 
-        $('#daterange').daterangepicker({
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                    'Last 7 Days': [moment().subtract('days', 6), moment()],
-                    'Last 30 Days': [moment().subtract('days', 29), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-                },
-                startDate: moment().subtract('days', 29),
-                endDate: moment()
-            },
-            function(start, end) {
-                $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-            });
-
         /* ---------- Auto Height texarea ---------- */
         // $('textarea').autosize();
 
@@ -62,7 +46,7 @@ window.setUpDomEvents = function() {
             return new Date(year, month - 1, day).getTime();
         }
 
-        var container = $('#main-chart');
+        /*var container = $('#main-chart');
 
         var plot = $.plot($("#main-chart"), [{
             label: "All clients",
@@ -120,10 +104,10 @@ window.setUpDomEvents = function() {
                     y: 20
                 }
             }
-        });
+        });*/
 
-        var yaxisLabel = $('<div class="axisLabel yaxisLabel"></div>').text('Revenue (USD)').appendTo(container);
-        var xaxisLabel = $('<div class="axisLabel xaxisLabel"></div>').text('Sales').appendTo(container);
+        // var yaxisLabel = $('<div class="axisLabel yaxisLabel"></div>').text('Revenue (USD)').appendTo(container);
+        // var xaxisLabel = $('<div class="axisLabel xaxisLabel"></div>').text('Sales').appendTo(container);
 
     });
 

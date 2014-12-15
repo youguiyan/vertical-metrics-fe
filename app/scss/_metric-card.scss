@@ -19,6 +19,22 @@
   position: relative;
   display: table-cell;
 
+  &.selected {
+    background: #eee;
+  }
+
+  .fa-level-up {
+    color: green;
+  }
+
+  .fa-level-down {
+    color: red;
+  }
+
+  i.trend {
+    right: 60px;
+  }
+
   &:last-child {
     border-right: none;
   }
@@ -71,10 +87,16 @@
 }
 
 .inline-metric-card {
+  display: block;
+  height: auto;
+  margin-bottom: 0;
+  padding: 0;
+  padding-bottom: 30px;
+
   @include pie-clearfix;
   .inline-chart-body {
-    height: 130px;
-    line-height: 65px;
+    height: 65px;
+    line-height: 32px;
     font-size: 20px;
   }
   .ctr-footer {

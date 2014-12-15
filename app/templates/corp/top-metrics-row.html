@@ -1,9 +1,10 @@
 <ul class="metric-card-list">
-    <li class="metric-card" ng-repeat="i in metricList">
+    <li class="metric-card" ng-repeat="i in metricList | filter:{type: 'one'} "
+        ng-click="toggleSelect(i)" ng-class="{'selected': i.selected}">
         <i class="icon-users"></i>
         <div class="number">
-            {{i.data[0]}}
-            <i class="fa fa-level-up"></i>
+            {{i.data[0]|number}}
+            <i class="fa trend" ng-class="{'fa-level-up': (+i.data[1]), 'fa-level-down':(-(+i.data[1]))}"></i>
         </div>
         <div>
             <div class="title">{{i.metricname}}</div>
@@ -13,54 +14,4 @@
             </div>
         </div>
     </li>
-    <!-- <li>
-        <i class="icon-user-follow"></i>
-        <div class="number">385</div>
-        <div class="title">New clients</div>
-        <div class="progress thin">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
-                <span class="sr-only">73% Complete (success)</span>
-            </div>
-        </div>
-    </li>
-    <li>
-        <i class="icon-basket-loaded"></i>
-        <div class="number">1238</div>
-        <div class="title">Products sold</div>
-        <div class="progress thin">
-            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
-                <span class="sr-only">73% Complete (success)</span>
-            </div>
-        </div>
-    </li>
-    <li>
-        <i class="icon-pie-chart"></i>
-        <div class="number">28%</div>
-        <div class="title">Returning Visitors</div>
-        <div class="progress thin">
-            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
-                <span class="sr-only">73% Complete (success)</span>
-            </div>
-        </div>
-    </li>
-    <li>
-        <i class="icon-speedometer"></i>
-        <div class="number">5:34:11</div>
-        <div class="title">Avg. time</div>
-        <div class="progress thin">
-            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
-                <span class="sr-only">73% Complete (success)</span>
-            </div>
-        </div>
-    </li>
-    <li>
-        <i class="icon-speech"></i>
-        <div class="number">972</div>
-        <div class="title">New comments</div>
-        <div class="progress thin">
-            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
-                <span class="sr-only">73% Complete (success)</span>
-            </div>
-        </div>
-    </li> -->
 </ul>

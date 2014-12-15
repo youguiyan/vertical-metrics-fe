@@ -12,14 +12,13 @@
     <link rel="stylesheet" href="vendors/realAdmin/css/bootstrap-theme.min.css" />
 
     <link rel="stylesheet" href="vendors/realAdmin/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="vendors/realAdmin/css/ace-fonts.css" />
-    <link rel="stylesheet" href="vendors/realAdmin/css/ace.min.css" />
     <link rel="stylesheet" href="vendors/realAdmin/css/add-ons.min.css" />
     <link rel="stylesheet" href="vendors/realAdmin/css/simple-line-icons.css" />
     <link rel="stylesheet" href="vendors/realAdmin/css/style.css" />
 
-    <link rel="stylesheet" href="components/bootstrap-daterangepicker/daterangepicker-bs2.css">
-    <link rel="stylesheet" href="components/angular-ui-select/dist/select.min.css">
+    <link rel="stylesheet" href="vendors/realAdmin/plugins/daterangepicker/css/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="vendors/realAdmin/plugins/datepicker/css/datepicker3.css">
+
     <link rel="stylesheet" href="components/AngularJS-Toaster/toaster.css">
     <link rel="stylesheet" href="components/angular-spinkit/build/angular-spinkit.min.css">
     <link rel="stylesheet" href="styles/main.css">
@@ -29,10 +28,10 @@
         <div ng-include="'templates/_base/header.html'"></div>
 
         <!-- Corp Page -->
-        <div ng-include="'templates/corp/index.html'" ng-show="$root.currentPage==='corp'"></div>
+        <div ng-include="'templates/corp/index.html'" ng-if="$root.currentPage==='corp'"></div>
 
         <!-- Vertical Page -->
-        <div ng-include="'templates/vertical/index.html'" ng-show="$root.currentPage==='vertical'"></div>
+        <div ng-include="'templates/vertical/index.html'" ng-if="$root.currentPage==='vertical'"></div>
 
         <!-- build:js scripts/vendor.js -->
         <script src="components/jquery/jquery.min.js"></script>
@@ -56,10 +55,11 @@
         <!-- endbuild -->
 
         <script src="vendors/realAdmin/plugins/moment/moment.min.js"></script>
+        <script src="vendors/realAdmin/plugins/daterangepicker/js/daterangepicker.min.js"></script>
+        <script src="vendors/realAdmin/plugins/datepicker/js/bootstrap-datepicker.min.js"></script>
+
         <script src="vendors/realAdmin/plugins/autosize/jquery.autosize.min.js"></script>
         <script src="vendors/realAdmin/plugins/gauge/gauge.min.js"></script>
-        <script src="vendors/realAdmin/plugins/daterangepicker/js/daterangepicker.min.js"></script>
-
         <script src="vendors/realAdmin/plugins/flot/jquery.flot.min.js"></script>
         <script src="vendors/realAdmin/plugins/flot/jquery.flot.resize.min.js"></script>
         <script src="vendors/realAdmin/plugins/flot/jquery.flot.time.min.js"></script>
