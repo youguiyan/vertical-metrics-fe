@@ -1,3 +1,5 @@
+// Todo: multi y axis - http://www.highcharts.com/demo/combo-multi-axes
+// Todo: debounce version fetchData(wait 300ms, then )
 function getPrevDay() {
     var x = new Date().getTime();
     return new Date(x - 1000 * 3600 * 24);
@@ -24,7 +26,7 @@ app.controller('idxCtrl', function($scope, $rootScope, $filter) {
     };
 
     $scope.getBaseDimension = function() {
-        return _.pick($scope, 'dimension', 'dateTime', 'timespan');
+        return $scope.dimension;
     };
 
     // $on 'dimensionChanged', 'timespan', 'dateTime'
@@ -77,7 +79,7 @@ app.controller('idxCtrl', function($scope, $rootScope, $filter) {
     $scope.$watch('dimension', function(v) {
         if (!v) return;
         $rootScope.$broadcast('dimensionChanged', v);
-    });
+    }, true);
     $scope.dimension = {
         isCheat: '', // default all value
         isNewUser: ''
@@ -116,7 +118,7 @@ app.controller('bunchMetricsOneCtrl', function($scope, $http) {
         $http.get(APIPREFIX + 'bunchData', {
             params: _.extend({}, $scope.getBaseVm(), {
                 bunchid: 1
-            })
+            }, $scope.getBaseDimension())
         }).then(function(r) {
             _.each(r.data, function(i) {
                 i.selected = _.isUndefined(i.selected) ? false : _.isUndefined(i.selected);
@@ -127,6 +129,7 @@ app.controller('bunchMetricsOneCtrl', function($scope, $http) {
             }).concat(r.data);
         });
     }
+    fetchData = _.debounce(fetchData, 300);
     fetchData();
 
     $scope.$on('baseDateTimeChanged', fetchData);
@@ -253,6 +256,7 @@ app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
             $('#main-chart').highcharts(chartOptions);
         });
     }
+    fetchData = _.debounce(fetchData, 800);
     fetchData();
 
     // $scope.$on('baseVmChanged', fetchData);
