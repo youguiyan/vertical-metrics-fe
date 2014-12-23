@@ -13,3 +13,16 @@
     display: inline-block;
     float: right;
 }
+.top-opbar {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    z-index: 100;
+}
+.top-opbar label {
+    line-height: 32px;
+}
+.top-opbar select {
+    line-height: 20px;
+    padding: 0 8px;
+}

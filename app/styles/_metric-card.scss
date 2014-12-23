@@ -8,6 +8,7 @@
   display: table;
   table-layout: fixed;
   width: 100%;
+  height: 150px;
 }
 .metric-card {
   height: 150px;
@@ -97,14 +98,15 @@
   .inline-chart-body {
     height: 65px;
     line-height: 32px;
-    font-size: 20px;
+    font-size: 14px;
   }
   .ctr-footer {
     line-height: 40px;
     font-size: 18px;
+    text-align: center;
+    color: #666;
   }
   .ctr-footer>div, .inline-chart-body>div {
-    width: 50%;
     display: inline-block;
     float: left;
     &>span{
@@ -115,6 +117,11 @@
     width: 50%;
     display: inline-block;
     float: left;
+  }
+  .inline-chart-metric {
+    float: right!important;
+    z-index: 2;
+    text-align: right;
   }
 }
 
@@ -140,23 +147,3 @@
         }
     }
 }
-
-/* @media (max-width: 479px) {
-  ul.statistics {
-    margin-bottom: 10px;
-  }
-  ul.statistics li {
-    border-top: 1px solid #d1d4d7;
-    border-right: 1px solid #d1d4d7;
-    display: block !important;
-    width: 50% !important;
-    float: left;
-  }
-  ul.statistics li:nth-child(1),
-  ul.statistics li:nth-child(2) {
-    border-top: none;
-  }
-  ul.statistics li:nth-child(2n) {
-    border-right: none;
-  }
-} */
