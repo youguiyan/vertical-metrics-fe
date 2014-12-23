@@ -1,8 +1,16 @@
-<table class="table table-bordered">
-    <tr ng-repeat="row in popupData">
-        <td ng-repeat="cell in row track by $index">
-            <span sparkline ng-if="$index == 0" data="cell"></span>
-            <span ng-if="$index != 0">{{cell}}</span>
-        </td>
-    </tr>
-</table>
+<div class="portlet popup-metrics-table">
+    <h4 class="portlet-title"><u>{{vertical}} Metrics - {{parent.dateTime|dateFormat}} - {{parent.getDimensionDesp()}}</u></h4>
+    <div class="portlet-body">
+        <div>
+            <p ng-repeat="row in popupData track by $index">
+                <span class="metric-line" sparkline data="row[0]"></span>
+                <span class="metric-name">{{row[1]}}</span>
+                <span class="metric-num" ng-switch on="types[$index]">
+                    <i ng-switch-when="ratio">{{row[2]}}</i>
+                    <i ng-switch-when="origin">{{row[2]|number}}</i>
+                    <i ng-switch-default>{{row[2]}}</i>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>

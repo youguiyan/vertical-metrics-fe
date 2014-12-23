@@ -55,6 +55,7 @@ app.controller('popupCtrl', function($scope, $http) {
                 verticalname: $scope.vertical
             })
         }).then(function(r) {
+            $scope.types = parent.types.slice(2);
             $scope.popupData = _.zip(r.data.data, _.values(parent.names).slice(2), $scope.row.slice(2));
         });
     }
