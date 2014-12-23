@@ -1,6 +1,3 @@
-var commonMetricType = ['number', 'number', 'number', 'percent', 'percent', 'percent', 'percent', 'ratio', 'percent'];
-var commonMetricName = ['DLU', 'Distribution', 'NDLU', 'New User 1th Week Relation', 'Weekly Launch Retention', 'DLU%', 'Distribution%', 'Distribution/DLU', 'New User/DLU'];
-
 app.controller('verticalTableCtrl', function($scope, $modal, $http) {
 
     function fetchData() {
@@ -24,6 +21,12 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http) {
         });
     }
     fetchData();
+
+    $scope.getLineData = function(row) {
+        if ($scope.lineData && $scope.data) {
+            return $scope.lineData[$scope.data.indexOf(row)] || [];
+        }
+    };
 
     $scope.openPopup = function(row) {
         var scope = $scope.$root.$new();

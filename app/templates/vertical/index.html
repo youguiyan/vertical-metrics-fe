@@ -45,7 +45,7 @@
                 <tr ng-repeat="row in data track by $index"
                     ng-click="openPopup(row)">
                     <td ng-repeat="cell in row track by $index" ng-switch on="types[$index]">
-                        <span ng-switch-when="line" sparkline data="lineData[$parent.$index]"></span>
+                        <span ng-switch-when="line" sparkline data="getLineData(row)"></span>
                         <span ng-switch-when="ratio">{{cell}}</span>
                         <span ng-switch-when="origin">{{cell|number}}</span>
                         <span ng-switch-default>{{cell}}</span>

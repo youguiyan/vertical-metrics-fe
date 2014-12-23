@@ -9,10 +9,9 @@ app.controller('bunchMetricsOneCtrl', function($scope, $http) {
             }, $scope.getBaseDimension())
         }).then(function(r) {
             _.each(r.data, function(i) {
-                i.selected = _.isUndefined(i.selected) ? false : _.isUndefined(i.selected);
                 i.type = 'one';
             });
-            $scope.$parent.metricList = _.filter($scope.$parent.metricList, function(i) {
+            $scope.$root.metricList = _.filter($scope.$root.metricList, function(i) {
                 return i.type == 'two';
             }).concat(r.data);
         });
@@ -35,10 +34,9 @@ app.controller('bunchMetricsTwoCtrl', function($scope, $http) {
             }
         }).then(function(r) {
             _.each(r.data, function(i) {
-                i.selected = _.isUndefined(i.selected) ? false : _.isUndefined(i.selected);
                 i.type = 'two';
             });
-            $scope.$parent.metricList = _.filter($scope.$parent.metricList, function(i) {
+            $scope.$root.metricList = _.filter($scope.$root.metricList, function(i) {
                 return i.type == 'one';
             }).concat(r.data);
         });

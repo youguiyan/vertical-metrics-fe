@@ -1,10 +1,3 @@
-/* Todo:
-    接口化
-    配置化
- */
-/*
-    策略： 直接利用 jQuery 的插件， 在必要的时候，去取值和监听值变化驱动 UI 改变等~
- */
 function getPrevDay() {
     var x = new Date().getTime();
     return new Date(x - 1000 * 3600 * 24);
@@ -57,16 +50,6 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/corp');
 });
 
-app.run(function($timeout, $rootScope) {
-    $timeout(function() {
-        setUpDomEvents();
-    }, 1000);
-    if ($rootScope.currentPage == 'corp') {
-        _sparkHeight = 140;
-    } else {
-        _sparkHeight = 20;
-    }
-});
 app.factory('$notice', function() {
     return {
         success: function() {}
@@ -116,26 +99,6 @@ app.filter('dateFormat', function() {
             return [p1, p2, p3].join('-');
         });
     }
-});
-
-app.filter('fakeCell', function($filter) {
-    return function(val) {
-        var formatMap = {
-            number: function() {
-                return $filter('number')(_.random(1000, 20000));
-            },
-            percent: function() {
-                return $filter('percentize')(_.random(0, 100) / 100);
-            },
-            ratio: function() {
-                return _.random(0, 100) / 100;
-            },
-            line: function() {
-                return '<div sparkline></div>';
-            }
-        };
-        return formatMap[val] ? formatMap[val]() : val;
-    };
 });
 
 app.directive('sparkline', function($timeout) {
@@ -201,106 +164,4 @@ app.filter('joinArr', function() {
     return function(arr) {
         return arr.join(',');
     }
-})
-
-app.controller('idxCtrl', function($scope, $rootScope, $filter) {
-    // fake states
-    $scope.dateTime = $filter('date')(getPrevDay(), 'yyyyMMdd');
-    $scope.dateTime = '20141201';
-    $scope.timespan = '1440'; // default day mode
-
-    $scope.getBaseVm = function() {
-        return _.pick($scope, 'dateTime', 'timespan');
-    };
-
-    $scope.getBaseDimension = function() {
-        return $scope.dimension;
-    };
-
-    // $on 'dimensionChanged', 'timespan', 'dateTime'
-    $scope.$watch('dateTime', function(v) {
-        if (!v) return;
-        $scope.$broadcast('baseDateTimeChanged', {});
-    });
-
-    // set datepicker jquery plugin
-    $scope.$watch('timespan', function(timespan, old) {
-        if (!old) return;
-        if (!timespan) return;
-        if (old == timespan) return;
-        var $datePicker = $('.date-picker');
-        var baseOpt = {
-            autoclose: true,
-            todayHighlight: true,
-            endDate: new Date()
-        };
-        var timespanDPoptionMap = {
-            1440: _.extend({}, baseOpt, {
-                format: 'yyyy-mm-dd'
-            }),
-            10080: _.extend({}, baseOpt, {
-                format: 'yyyy-mm-dd',
-                daysOfWeekDisabled: "0,2,3,4,5,6"
-            }),
-            43200: _.extend({}, baseOpt, {
-                format: 'yyyy-mm',
-                minViewMode: 'months',
-                startView: 'months'
-            })
-        };
-        var prevFnMap = {
-            1440: getPrevDay,
-            10080: getPrevMonday,
-            43200: getPrevMonth
-        };
-        $datePicker.datepicker('remove');
-        $datePicker.datepicker(timespanDPoptionMap[timespan]).on('changeDate', function(e) {
-            $scope.dateTime = e.format().replace(/-/g, '');
-            if (!$scope.$$phase) {
-                $scope.$apply();
-            }
-        });
-        $datePicker.datepicker('setDate', prevFnMap[timespan].call());
-        $scope.$broadcast('baseTimeSpanChanged', {});
-    });
-
-    // slider ui for dimension select
-    $scope.$watch('dimension', function(v) {
-        if (!v) return;
-        $rootScope.$broadcast('dimensionChanged', v);
-    }, true);
-    $scope.dimension = {
-        isCheat: '', // default all value
-        isNewUser: ''
-    };
-    $scope.isCheatOptions = [
-        ['0', '非作弊'],
-        ['1', '作弊'],
-        ['', '不区分作弊']
-    ];
-    $scope.isNewUserOptions = [
-        ['0', '老用户'],
-        ['1', '新用户'],
-        ['', '全部用户']
-    ];
-    $scope.timespanOptions = [
-        ['1440', '天'],
-        ['10080', '周']
-    ];
-    $scope.getDimensionDesp = function() {
-        var dim = $scope.dimension;
-        return $scope.isCheatOptions[dim.isCheat ? dim.isCheat : '2'][1] + ' ' + $scope.isNewUserOptions[dim.isNewUser ? dim.isNewUser : '2'][1];
-    };
-
-    $scope.metricList = [];
-    // click metric card to toggle select status
-    $scope.toggleSelect = function(i) {
-        i.selected = !i.selected;
-    };
-    $scope.$watch('metricList', function(v) {
-        if (!v) return;
-        $rootScope.$broadcast('selectedMetricsChange', _.pluck(_.filter(v, function(v) {
-            return v.selected;
-        }), 'metricid'));
-    }, true);
 });
