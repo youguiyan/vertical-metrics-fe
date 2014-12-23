@@ -22,7 +22,7 @@ function getPrevMonth() {
 }
 
 // retentionData ? metricid = 72 & timespan = 10080 & dateTime = 20141124
-window.APIPREFIX = 'http://apps-datatools0-bgp0.hy01.wandoujia.com:8000/';
+window.APIPREFIX = 'http://doss.wandoulabs.com/api/';
 _sparkHeight = 140;
 // bunchData, retentionData, metricData
 var app = angular.module('app', [
@@ -108,26 +108,39 @@ app.filter('fakeCell', function($filter) {
     };
 });
 
-app.directive('sparkline', function() {
+app.directive('sparkline', function($timeout) {
     return {
         scope: {
             data: '='
         },
         link: function(scope, element, attrs) {
-            var data = scope.data || _.map(_.range(1, 10), function(i) {
-                return [i, _.random(20, 100)];
-            });
-            $(element).sparkline(data, {
-                width: (+attrs.width) || 200,
-                height: (+attrs.height) || 40,
-                lineColor: '#2FABE9',
-                fillColor: '#f2f7f9',
-                spotColor: '#467e8c',
-                maxSpotColor: '#b9e672',
-                minSpotColor: '#FA5833',
-                spotRadius: 2,
-                lineWidth: 1
-            });
+            function render(data) {
+                $timeout(function() {
+                    $(element).sparkline(data, {
+                        width: (+attrs.width) || 200,
+                        height: (+attrs.height) || 40,
+                        lineColor: '#2FABE9',
+                        fillColor: '#f2f7f9',
+                        spotColor: '#467e8c',
+                        maxSpotColor: '#b9e672',
+                        minSpotColor: '#FA5833',
+                        spotRadius: 2,
+                        lineWidth: 1
+                    });
+                }, 200);
+            }
+            if (attrs.data) {
+                scope.$watch('data', function(v) {
+                    if (!v) return;
+                    render(_.map(v, function(i) {
+                        return +i;
+                    }));
+                });
+            } else {
+                render(_.map(_.range(1, 10), function(i) {
+                    return [i, _.random(20, 100)];
+                }));
+            }
         }
     }
 });

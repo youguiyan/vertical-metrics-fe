@@ -1,8 +1,8 @@
 <table class="table table-bordered">
     <tr ng-repeat="row in popupData">
-        <td ng-repeat="cell in row">
-            <span ng-bind-html="cell|fakeCell" ng-if="cell != 'line'"></span>
-            <span sparkline ng-if="cell == 'line'"></span>
+        <td ng-repeat="cell in row track by $index">
+            <span sparkline ng-if="$index == 0" data="cell"></span>
+            <span ng-if="$index != 0">{{cell}}</span>
         </td>
     </tr>
 </table>
