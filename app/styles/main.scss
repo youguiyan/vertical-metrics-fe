@@ -25,6 +25,16 @@
 .top-opbar select {
     line-height: 20px;
     padding: 0 8px;
+}
+.vertical-metrics-table {
+    tbody tr {
+        min-height: 57px;
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    }
+}
 .popup-metrics-table {
     padding: 15px;
     p {

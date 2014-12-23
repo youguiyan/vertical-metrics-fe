@@ -1,5 +1,5 @@
 <!-- start: Content -->
-<div class="main" style="padding: 80px;background: #fff;" ng-controller="idxCtrl">
+<div class="main" style="padding: 80px;background: #fff;">
     <div class="top-opbar">
         <label>
             是否作弊
@@ -32,7 +32,8 @@
 
     <!-- chart + metric card -->
     <div class="row" ng-controller="verticalTableCtrl">
-        <table class="table table-bordered">
+        <table class="table table-bordered vertical-metrics-table"
+            style="min-height: 434px;">
             <thead>
                 <tr>
                     <th ng-repeat="i in names track by $index">

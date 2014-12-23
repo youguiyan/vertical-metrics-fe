@@ -197,6 +197,11 @@ app.filter('percentize', ['$filter',
         };
     }
 ]);
+app.filter('joinArr', function() {
+    return function(arr) {
+        return arr.join(',');
+    }
+})
 
 app.controller('idxCtrl', function($scope, $rootScope, $filter) {
     // fake states
@@ -271,17 +276,21 @@ app.controller('idxCtrl', function($scope, $rootScope, $filter) {
     $scope.isCheatOptions = [
         ['0', '非作弊'],
         ['1', '作弊'],
-        ['', '全部']
+        ['', '不区分作弊']
     ];
     $scope.isNewUserOptions = [
         ['0', '老用户'],
         ['1', '新用户'],
-        ['', '全部']
+        ['', '全部用户']
     ];
     $scope.timespanOptions = [
         ['1440', '天'],
         ['10080', '周']
     ];
+    $scope.getDimensionDesp = function() {
+        var dim = $scope.dimension;
+        return $scope.isCheatOptions[dim.isCheat ? dim.isCheat : '2'][1] + ' ' + $scope.isNewUserOptions[dim.isNewUser ? dim.isNewUser : '2'][1];
+    };
 
     $scope.metricList = [];
     // click metric card to toggle select status

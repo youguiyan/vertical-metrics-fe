@@ -54,6 +54,7 @@ app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
     $scope.dateTimeStart = $filter('date')(getPrevMonth(), 'yyyyMMdd');
     $scope.dateTimeEnd = $filter('date')(getPrevDay(), 'yyyyMMdd');
     $scope.timespan = 1440;
+    $scope.chartLabels = [];
     var chartOptions = {
         options: {
             chart: {
@@ -127,8 +128,10 @@ app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
                 })
             })
         })).then(function(resps) {
+            $scope.chartLabels = [];
             chartOptions.series = _.map(resps, function(resp) {
                 if (resp.data.data.length) {
+                    $scope.chartLabels.push(resp.data.name);
                     return {
                         pointInterval: 86400000, // one day milliseconds
                         pointStart: 1418367363073,
