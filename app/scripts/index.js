@@ -35,6 +35,28 @@ var app = angular.module('app', [
     'angular-spinkit',
     'toaster'
 ]);
+
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+
+    var routeInfo = {
+        'corp': {
+            url: '/corp',
+            templateUrl: 'templates/corp/index.html'
+        },
+        'vertical': {
+            url: '/vertical',
+            templateUrl: 'templates/vertical/index.html'
+        }
+    };
+
+    _.each(routeInfo, function(opt, name) {
+        $stateProvider.state(name, opt);
+    });
+
+    // $locationProvider.html5Mode(true).hashPrefix('!');
+    $urlRouterProvider.otherwise('/corp');
+});
+
 app.run(function($timeout, $rootScope) {
     $timeout(function() {
         setUpDomEvents();
@@ -86,6 +108,14 @@ app.factory('apiHelperInterceptor', function($q, $notice) {
     };
 }).config(function($httpProvider) {
     // $httpProvider.interceptors.push('apiHelperInterceptor');
+});
+
+app.filter('dateFormat', function() {
+    return function(val) {
+        return val.replace(/(\d{4})(\d{2})(\d{2})/, function(m, p1, p2, p3) {
+            return [p1, p2, p3].join('-');
+        });
+    }
 });
 
 app.filter('fakeCell', function($filter) {
@@ -171,6 +201,7 @@ app.filter('percentize', ['$filter',
 app.controller('idxCtrl', function($scope, $rootScope, $filter) {
     // fake states
     $scope.dateTime = $filter('date')(getPrevDay(), 'yyyyMMdd');
+    $scope.dateTime = '20141201';
     $scope.timespan = '1440'; // default day mode
 
     $scope.getBaseVm = function() {
@@ -188,8 +219,10 @@ app.controller('idxCtrl', function($scope, $rootScope, $filter) {
     });
 
     // set datepicker jquery plugin
-    $scope.$watch('timespan', function(timespan) {
+    $scope.$watch('timespan', function(timespan, old) {
+        if (!old) return;
         if (!timespan) return;
+        if (old == timespan) return;
         var $datePicker = $('.date-picker');
         var baseOpt = {
             autoclose: true,
@@ -219,13 +252,12 @@ app.controller('idxCtrl', function($scope, $rootScope, $filter) {
         $datePicker.datepicker(timespanDPoptionMap[timespan]).on('changeDate', function(e) {
             $scope.dateTime = e.format().replace(/-/g, '');
             if (!$scope.$$phase) {
-                //$digest or $apply
                 $scope.$apply();
             }
         });
         $datePicker.datepicker('setDate', prevFnMap[timespan].call());
         $scope.$broadcast('baseTimeSpanChanged', {});
-    }, true);
+    });
 
     // slider ui for dimension select
     $scope.$watch('dimension', function(v) {

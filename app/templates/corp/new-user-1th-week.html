@@ -1,20 +1,26 @@
-<p>{{name}}</p>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th ng-repeat="i in header">
-                {{i}}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="row in data">
-            <td ng-repeat="cell in row track by $index">
-                <span ng-show="cell">
-                    {{($index == 0) ? cell : (cell|percentize)}}
-                </span>
-                <span ng-show="!cell"></span>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="portlet">
+    <h4 class="portlet-title">
+        <u>{{name}}</u>
+    </h4>
+    <div class="portlet-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th ng-repeat="i in header">
+                        {{i}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in data">
+                    <td ng-repeat="cell in row track by $index">
+                        <span ng-show="cell">
+                            {{($index == 0) ? (cell|dateFormat) : (cell|percentize)}}
+                        </span>
+                        <span ng-show="!cell"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
