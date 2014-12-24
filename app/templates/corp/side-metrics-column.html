@@ -4,7 +4,7 @@
         ng-click="toggleSelect(i)" ng-class="{'selected': i.selected}">
 
         <div class="inline-chart-body" ng-switch-when="origin">
-            <div sparkline width="160" height="64"></div>
+            <div sparkline width="160" height="64" data="sdLineChartMap[i.metricid]"></div>
             <div class="inline-chart-metric">
                 <span>{{i.data[0]|number}}</span>
                 <span>{{i.metricname}}</span>

@@ -39,8 +39,28 @@ app.controller('bunchMetricsTwoCtrl', function($scope, $http) {
             $scope.$root.metricList = _.filter($scope.$root.metricList, function(i) {
                 return i.type == 'one';
             }).concat(r.data);
+
+            updateLineChart(_.pluck(_.filter(r.data, function(i) {
+                return i.metrictype == 'origin';
+            }), 'metricid'));
         });
     }
+
+    function updateLineChart(metricids) {
+        $scope.sdLineChartMap = {};
+        if (!$scope.$parent.dateTime) return;
+        _.each(metricids, function(id, idx) {
+            $http.get(APIPREFIX + 'metricData', {
+                params: _.extend({}, {
+                    metricid: id,
+                    dateTimeEnd: $scope.$parent.dateTime
+                }, $scope.getBaseDimension())
+            }).then(function(r) {
+                $scope.sdLineChartMap[id] = r.data.data;
+            });
+        });
+    }
+
     fetchData();
 
     $scope.$on('baseDateTimeChanged', fetchData);
