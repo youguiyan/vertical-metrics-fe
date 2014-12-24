@@ -11,10 +11,11 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http) {
         });
 
         // fetch inline chart data
-        // verticalMetricData?metricname=DLU&dateTime=20141208
+        // verticalMetricData?metricname=DLU&=
         $http.get(APIPREFIX + 'verticalMetricData', {
-            params: _.extend({}, $scope.getBaseVm(), $scope.getBaseDimension(), {
-                metricname: 'DLU'
+            params: _.extend({}, {
+                metricname: 'DLU',
+                dateTime: 20141208
             })
         }).then(function(r) {
             $scope.lineData = r.data.data;
@@ -39,6 +40,12 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http) {
             scope: scope
         });
     };
+    // http: //apps-datatools0-bgp0.hy01.wandoujia.com:8000/?verticalname=app&timespan=1440&dateTime=20141217
+    $http.get(APIPREFIX + 'verticalNdlu', {
+        params: _.extend({}, {
+            verticalname: 'app'
+        }, $scope.getBaseVm(), $scope.getBaseDimension())
+    });
 
     $scope.$on('baseDateTimeChanged', fetchData);
     $scope.$on('baseTimeSpanChanged', fetchData);
