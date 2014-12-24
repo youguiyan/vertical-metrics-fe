@@ -92,18 +92,8 @@ module.exports = function(grunt) {
                     cwd: '<%= paths.app %>',
                     dest: '<%= paths.dist %>',
                     src: [
-                        'font/**/*', 'images/**/*', 'assets/**/*'
+                        'fonts/**/*', 'images/**/*', 'assets/**/*', 'vendors/pace.js'
                     ]
-                }]
-            },
-            vendor: {
-                files: [{
-                    expand: true,
-                    // dot: true,
-                    flatten: true,
-                    cwd: '<%= paths.app %>/vendors',
-                    dest: '<%= paths.dist %>/font',
-                    src: ['ace-v1.2/font/**/*']
                 }]
             }
         },
@@ -246,7 +236,7 @@ module.exports = function(grunt) {
                 dest: 'app/scripts/templates.js',
                 options: {
                     bootstrap: function(module, script) {
-                        return "(function() { angular.module('oemApp.templates', []).run(['$templateCache'," + "function($templateCache) {" + script + "}]);})();";
+                        return "(function() { angular.module('app.templates', []).run(['$templateCache'," + "function($templateCache) {" + script + "}]);})();";
                     },
                     url: function(url) {
                         return url.replace(/^app\//, '');
@@ -282,8 +272,7 @@ module.exports = function(grunt) {
         'filerev',
         // 'imagemin',
         'usemin',
-        'copy:static',
-        'copy:vendor'
+        'copy:static'
     ]);
 
     grunt.registerTask('build:staging', [

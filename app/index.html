@@ -8,20 +8,15 @@
 
     <!-- build:css styles/index.css -->
     <link rel="stylesheet" href="vendors/realAdmin/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="vendors/realAdmin/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="vendors/mvpready-admin.css" />
 
     <link rel="stylesheet" href="vendors/realAdmin/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="http://static.wdjimg.com/ajax/libs/pace/0.5.5/templates/pace-theme-flash.tmpl.css">
-    <link rel="stylesheet" href="vendors/realAdmin/css/add-ons.min.css" />
+    <link rel="stylesheet" href="vendors/pace-theme-flash.tmpl.css">
     <link rel="stylesheet" href="vendors/realAdmin/css/simple-line-icons.css" />
     <link rel="stylesheet" href="vendors/realAdmin/css/style.css" />
 
     <link rel="stylesheet" href="vendors/realAdmin/plugins/daterangepicker/css/daterangepicker-bs3.css">
     <link rel="stylesheet" href="vendors/realAdmin/plugins/datepicker/css/datepicker3.css">
-
-    <link rel="stylesheet" href="components/AngularJS-Toaster/toaster.css">
-    <link rel="stylesheet" href="components/angular-spinkit/build/angular-spinkit.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
@@ -29,7 +24,7 @@
         <div ng-include="'templates/_base/header.html'"></div>
 
         <div ui-view></div>
-
+        <script src="vendors/pace.js"></script>
         <!-- build:js scripts/vendor.js -->
         <script src="components/jquery/jquery.min.js"></script>
         <script src="components/underscore/underscore.js"></script>
@@ -41,32 +36,19 @@
         <script src="components/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
-        <script src="components/AngularJS-Toaster/toaster.js"></script>
-        <script src="components/angular-spinkit/build/angular-spinkit.min.js"></script>
-
         <!-- // highcharts -->
         <script src="vendors/Highcharts-4.0.3/js/highcharts.src.js"></script>
         <script src="vendors/Highcharts-4.0.3/js/highcharts-more.src.js"></script>
         <script src="vendors/Highcharts-4.0.3/js/modules/exporting.src.js"></script>
-        <script src="components/highcharts-ng/dist/highcharts-ng.js"></script>
+
+        <script src="vendors/moment.js"></script>
+        <script src="vendors/realAdmin/plugins/daterangepicker/js/daterangepicker.js"></script>
+        <script src="vendors/realAdmin/plugins/datepicker/js/bootstrap-datepicker.js"></script>
+        <script src="vendors/realAdmin/plugins/sparkline/jquery.sparkline.js"></script>
         <!-- endbuild -->
 
-        <script src="vendors/realAdmin/plugins/moment/moment.min.js"></script>
-        <script src="vendors/realAdmin/plugins/daterangepicker/js/daterangepicker.min.js"></script>
-        <script src="vendors/realAdmin/plugins/datepicker/js/bootstrap-datepicker.min.js"></script>
-
-        <script src="vendors/realAdmin/plugins/autosize/jquery.autosize.min.js"></script>
-        <script src="vendors/realAdmin/plugins/gauge/gauge.min.js"></script>
-        <script src="vendors/realAdmin/plugins/flot/jquery.flot.min.js"></script>
-        <script src="vendors/realAdmin/plugins/flot/jquery.flot.resize.min.js"></script>
-        <script src="vendors/realAdmin/plugins/flot/jquery.flot.time.min.js"></script>
-        <script src="vendors/realAdmin/plugins/flot/jquery.flot.spline.min.js"></script>
-
-        <script src="vendors/realAdmin/plugins/sparkline/jquery.sparkline.js"></script>
-
-        <script src="http://static.wdjimg.com/ajax/libs/pace/0.5.5/pace.js"></script>
-
         <!-- build:js scripts/app.js -->
+        <script src="scripts/templates.js"></script>
         <script src="scripts/index.js"></script>
         <script src="scripts/base.js"></script>
         <script src="scripts/corp.js"></script>

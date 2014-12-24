@@ -24,9 +24,7 @@ var app = angular.module('app', [
 
     'ui.router',
     'ui.bootstrap',
-
-    'angular-spinkit',
-    'toaster'
+    'app.templates'
 ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
