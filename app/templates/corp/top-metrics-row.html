@@ -4,7 +4,7 @@
         <i class="icon-users"></i>
         <div class="number">
             {{i.data[0]|number}}
-            <i class="fa trend" ng-class="{'fa-level-up': (+i.data[1]), 'fa-level-down':(-(+i.data[1]))}"></i>
+            <i class="fa trend" ng-class="{'fa-level-up': (+i.data[1] > 0), 'fa-level-down':(+i.data[1]) < 0}"></i>
         </div>
         <div>
             <div class="title">{{i.metricname}}</div>

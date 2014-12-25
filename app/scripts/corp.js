@@ -152,7 +152,7 @@ app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
                     $scope.chartLabels.push(resp.data.name);
                     return {
                         pointInterval: 86400000, // one day milliseconds
-                        pointStart: 1418367363073,
+                        pointStart: new Date($filter('dateFormat')(resp.data.dateTimeList[0])).getTime(),
                         data: _.map(resp.data.data, function(i) {
                             return +(i);
                         }),
@@ -188,11 +188,11 @@ app.controller('newUserRetentionTblCtrl', function($scope, $http) {
         });
 
         $http.get(APIPREFIX + 'retentionData', {
-            params: {
+            params: _.extend({}, {
                 dateTime: $scope.$parent.dateTime,
                 metricid: 61,
                 timespan: 1440
-            }
+            }, $scope.getBaseDimension())
         }).then(function(r) {
             $scope.data = r.data.data;
             $scope.name = r.data.name;
@@ -216,7 +216,7 @@ app.controller('newUser1thWeeklCtrl', function($scope, $http) {
                 dateTime: $scope.$parent.dateTime,
                 metricid: 72,
                 timespan: 10080
-            })
+            }, $scope.getBaseDimension())
         }).then(function(r) {
             $scope.data = r.data.data;
             $scope.name = r.data.name;
