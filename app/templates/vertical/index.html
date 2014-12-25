@@ -1,8 +1,8 @@
 <!-- start: Content -->
-<div class="main" style="padding: 80px;background: #fff;">
+<div class="main" style="padding: 80px;background: #fff;" ng-controller="verticalTableCtrl">
 
     <!-- chart + metric card -->
-    <div class="row" ng-controller="verticalTableCtrl">
+    <div class="row">
         <table class="table table-bordered vertical-metrics-table"
             style="min-height: 434px;">
             <thead>
@@ -13,11 +13,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in data track by $index"
-                    ng-click="openPopup(row)">
-                    <td ng-repeat="cell in row track by $index" ng-switch on="types[$index]">
-                        <span ng-switch-when="line" sparkline data="getLineData(row)"></span>
-                        <span ng-switch-when="ratio">{{cell}}</span>
+                <tr ng-repeat="row in data track by $index">
+                    <td ng-repeat="cell in row track by $index" ng-switch on="getCellType($index)">
+                        <span ng-switch-when="line" ng-click="openPopup(row)" sparkline data="getLineData(row)"></span>
+                        <span ng-switch-when="ratio">{{cell|percentize}}</span>
+                        <span ng-switch-when="ndlu" ng-click="renderFlowPathChart(row)">{{cell}}</span>
                         <span ng-switch-when="origin">{{cell|number}}</span>
                         <span ng-switch-default>{{cell}}</span>
                     </td>
@@ -26,8 +26,16 @@
         </table>
     </div><!--/row-->
 
-    <div class="row" style="text-align:center">
+    <div class="row flow-path-wrapper">
         <!-- replace with datav and d3 chord diy -->
-        <img src="images/fake-NDLU.png" width="750">
+        <!-- <img src="images/fake-NDLU.png" width="750"> -->
+        <div id="flow-path-chart" style="width: 800px;height: 600px"></div>
+        <table class="table table-bordered flow-path-table">
+            <tr ng-repeat="i in ndluTableData.data track by $index">
+                <td>{{$index+1}}</td>
+                <td>{{ndluTableData.names[$index]}}</td>
+                <td>{{i}}</td>
+            </tr>
+        </table>
     </div>
 </div>

@@ -53,3 +53,14 @@
         }
     }
 }
+.flow-path-wrapper {
+    text-align: center;
+    position: relative;
+    @include pie-clearfix;
+}
+.flow-path-table {
+    position: absolute;
+    top: 40px;
+    left: 600px;
+    width: 400px;
+}

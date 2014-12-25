@@ -10,12 +10,10 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http) {
             $scope.data = r.data.tableData;
         });
 
-        // fetch inline chart data
-        // verticalMetricData?metricname=DLU&=
         $http.get(APIPREFIX + 'verticalMetricData', {
             params: _.extend({}, {
                 metricname: 'DLU',
-                dateTime: 20141208
+                dateTime: $scope.$parent.dateTime
             })
         }).then(function(r) {
             $scope.lineData = r.data.data;
@@ -41,11 +39,34 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http) {
         });
     };
     // http: //apps-datatools0-bgp0.hy01.wandoujia.com:8000/?verticalname=app&timespan=1440&dateTime=20141217
-    $http.get(APIPREFIX + 'verticalNdlu', {
-        params: _.extend({}, {
-            verticalname: 'app'
-        }, $scope.getBaseVm(), $scope.getBaseDimension())
-    });
+
+
+    $scope.renderFlowPathChart = function(row) {
+        var vertical = row[0];
+        if (row[0] == 'WDJ') {
+            return;
+        }
+
+        $http.get(APIPREFIX + 'verticalNdlu', {
+            params: _.extend({}, {
+                verticalname: vertical
+            }, $scope.getBaseVm(), $scope.getBaseDimension())
+        }).then(function(r) {
+            var NdluData = r.data;
+            window.renderFlowPathChart(NdluData, vertical);
+            // renderNdluTable(NdluData.otherbringdata);
+            $scope.ndluTableData = NdluData.otherbringdata;
+        });
+    };
+
+    $scope.getCellType = function(idx) {
+        console.log($scope.types[idx]);
+        if ($scope.names && ($scope.names[idx] === 'NDLU')) {
+            return 'ndlu';
+        } else {
+            return $scope.types[idx];
+        }
+    };
 
     $scope.$on('baseDateTimeChanged', fetchData);
     $scope.$on('baseTimeSpanChanged', fetchData);

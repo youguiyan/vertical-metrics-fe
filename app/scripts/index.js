@@ -153,7 +153,8 @@ app.filter('percentize', ['$filter',
     function($filter) {
         return function(input, decimals) {
             var decimals = decimals ? decimals : 2;
-            if (isNaN(input)) return '';
+            if (_.isNaN(input)) return '';
+            if (_.isNull(input)) return '';
             return $filter('number')(input * 100, decimals) + '%';
         };
     }
