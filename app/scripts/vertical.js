@@ -1,4 +1,4 @@
-app.controller('verticalTableCtrl', function($scope, $modal, $http) {
+app.controller('verticalTableCtrl', function($scope, $modal, $http, $timeout) {
 
     function fetchData() {
         // fetch table data
@@ -53,9 +53,11 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http) {
             }, $scope.getBaseVm(), $scope.getBaseDimension())
         }).then(function(r) {
             var NdluData = r.data;
-            window.renderFlowPathChart(NdluData, vertical);
             // renderNdluTable(NdluData.otherbringdata);
             $scope.ndluTableData = NdluData.otherbringdata;
+            $timeout(function() {
+                window.renderFlowPathChart(NdluData, vertical);
+            }, 100);
         });
     };
 

@@ -13,4 +13,32 @@
           </li>
         </ul>
     </div>
+
+    <div class="top-opbar">
+        <label>
+            是否作弊
+            <select name="isCheat" id="isCheat" ng-model="dimension.isCheat"
+                ng-options="i[0] as i[1] for i in isCheatOptions"></select>
+        </label>
+
+        <label>
+            新老用户
+            <select name="isNewUser" id="isNewUser" ng-model="dimension.isNewUser"
+                ng-options="i[0] as i[1] for i in isNewUserOptions"></select>
+        </label>
+        <div class="input-append datepicker">
+            <input class="date-picker" type="text" />
+            <span class="add-on">
+                <i class="icon-calendar"></i>
+            </span>
+        </div>
+        <div data-toggle="buttons-radio" class="btn-group">
+            <button class="btn" type="button"
+                ng-class="{'active': $root.timespan==i[0]}"
+                ng-click="$root.timespan=i[0];"
+                ng-repeat="i in timespanOptions">
+                {{i[1]}}
+            </button>
+        </div>
+    </div>
 </header>

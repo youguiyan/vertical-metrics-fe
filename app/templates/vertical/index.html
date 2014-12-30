@@ -26,16 +26,17 @@
         </table>
     </div><!--/row-->
 
-    <div class="row flow-path-wrapper">
+    <div class="row flow-path-wrapper" ng-show="ndluTableData.data">
         <!-- replace with datav and d3 chord diy -->
-        <!-- <img src="images/fake-NDLU.png" width="750"> -->
         <div id="flow-path-chart" style="width: 800px;height: 600px"></div>
-        <table class="table table-bordered flow-path-table">
-            <tr ng-repeat="i in ndluTableData.data track by $index">
-                <td>{{$index+1}}</td>
-                <td>{{ndluTableData.names[$index]}}</td>
-                <td>{{i}}</td>
-            </tr>
-        </table>
+        <div class="flow-path-table">
+            <table class="table table-bordered">
+                <tr ng-repeat="i in ndluTableData.data track by $index">
+                    <td>{{$index+1}}</td>
+                    <td>{{ndluTableData.names[$index]}}</td>
+                    <td>{{i}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

@@ -15,15 +15,27 @@
 }
 .top-opbar {
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 50px;
     z-index: 100;
+    line-height: 20px;
+
+    .datepicker {
+        position: relative;
+        input {
+            padding-left: 25px;
+        }
+        .add-on {
+            position: absolute;
+            left: 10px;
+            top: 8px;
+        }
+    }
 }
 .top-opbar label {
     line-height: 32px;
 }
 .top-opbar select {
-    line-height: 20px;
     padding: 0 8px;
 }
 .vertical-metrics-table {
@@ -61,6 +73,8 @@
 .flow-path-table {
     position: absolute;
     top: 40px;
-    left: 600px;
+    left: 500px;
     width: 400px;
+    max-height: 550px;
+    overflow: auto;
 }
