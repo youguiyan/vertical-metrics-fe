@@ -3,12 +3,19 @@
 
     <!-- chart + metric card -->
     <div class="row">
+        <p>Tip: 点击各个 vertical 的 NDLU 数值,DLU 图表，查看详情~</p>
         <table class="table table-bordered vertical-metrics-table"
             style="min-height: 434px;">
             <thead>
                 <tr>
                     <th ng-repeat="i in names track by $index">
-                        {{i}}
+                        <!-- <span ng-if="i=='NDLU'">
+                            <i class="icon-moustache" rel="tooltip" data-placement="right"
+                                data-original-title="Help Document">
+                            </i>
+                            NDLU
+                        </span> -->
+                        <span>{{i}}</span>
                     </th>
                 </tr>
             </thead>
