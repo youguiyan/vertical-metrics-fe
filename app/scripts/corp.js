@@ -117,6 +117,7 @@ app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
     };
 
     $timeout(function() {
+        $('#daterange span').html($scope.dateTimeStart + ' - ' + $scope.dateTimeEnd);
         $('#daterange').daterangepicker({
                 ranges: {
                     'Today': [moment(), moment()],
@@ -125,12 +126,10 @@ app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
                     'Last 30 Days': [moment().subtract('days', 29), moment()],
                     'This Month': [moment().startOf('month'), moment().endOf('month')],
                     'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-                },
-                startDate: moment().subtract('days', 29),
-                endDate: moment()
+                }
             },
             function(start, end) {
-                $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#daterange span').html(start.format('YYYYMMDD') + ' - ' + end.format('YYYYMMDD'));
                 $scope.dateTimeEnd = end.format('YYYYMMDD');
                 $scope.dateTimeStart = start.format('YYYYMMDD')
                 fetchData();
@@ -184,7 +183,7 @@ app.controller('newUserRetentionTblCtrl', function($scope, $http) {
     function fetchData() {
         $scope.header = ['DATE'];
         _.each(_.range(1, 11), function(i, idx) {
-            $scope.header.push('DATE ' + i);
+            $scope.header.push('DAY ' + i);
         });
 
         $http.get(APIPREFIX + 'retentionData', {
