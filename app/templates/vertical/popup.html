@@ -6,7 +6,7 @@
                 <span class="metric-line" sparkline data="row[0]"></span>
                 <span class="metric-name">{{row[1]}}</span>
                 <span class="metric-num" ng-switch on="types[$index]">
-                    <i ng-switch-when="ratio">{{row[2]}}</i>
+                    <i ng-switch-when="ratio">{{row[2]|percentize}}</i>
                     <i ng-switch-when="origin">{{row[2]|number}}</i>
                     <i ng-switch-default>{{row[2]}}</i>
                 </span>

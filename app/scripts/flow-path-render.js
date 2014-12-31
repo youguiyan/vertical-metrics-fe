@@ -7,6 +7,7 @@ function renderFlowPathChart(NdluData, veritical) {
     var maxCircleR = 80;
     var minCircleR = 30;
     var lineSize = 15;
+    var _vertical = veritical[0].toLowerCase() + veritical.slice(1);
 
     var totalNum = _.reduce(_.values(NdluData.verticaldata), function(memo, num) {
         return memo + num;
@@ -21,9 +22,8 @@ function renderFlowPathChart(NdluData, veritical) {
         0: [containerWidth / 2, containerHeight / 2 - centerCiccleR],
         1: [containerWidth / 2 - linePointOffset, containerHeight / 2 - centerCiccleR / 2],
         2: [(containerWidth / 2) - centerCiccleR, containerHeight / 2],
-        3: [(containerWidth / 2) - centerCiccleR, containerHeight / 2],
-        4: [(containerWidth / 2) - linePointOffset, containerHeight / 2 + centerCiccleR / 2],
-        5: [containerWidth / 2, containerHeight / 2 + centerCiccleR]
+        3: [(containerWidth / 2) - linePointOffset, containerHeight / 2 + centerCiccleR / 2],
+        4: [containerWidth / 2, containerHeight / 2 + centerCiccleR]
     };
 
     function getRatioR(part) {
@@ -52,7 +52,7 @@ function renderFlowPathChart(NdluData, veritical) {
                         'stroke-width': 1
                     }).add();
 
-                    var _centerLabel = veritical + '<br>' + totalNum;
+                    var _centerLabel = veritical + '<br>' + NdluData.verticaldata[_vertical];
                     ren.label(_centerLabel, containerWidth / 2 - getTextWidthOffsize(_centerLabel, ren), containerHeight / 2 - lineSize).css({
                         fontWeight: 'bold'
                     }).add();
@@ -61,6 +61,7 @@ function renderFlowPathChart(NdluData, veritical) {
                     var i = 0;
                     var _leftLabel;
                     _.each(NdluData.verticaldata, function(val, key) {
+                        if (key == _vertical) return;
                         var r = getRatioR(val);
                         // left circle
                         ren.circle(maxCircleR, lastCircleY + r, r).attr({
