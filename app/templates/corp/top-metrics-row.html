@@ -1,7 +1,8 @@
 <ul class="metric-card-list">
     <li class="metric-card" ng-repeat="i in metricList | filter:{type: 'one'} "
         ng-click="toggleSelect(i)" ng-class="{'selected': i.selected}">
-        <i class="icon-users"></i>
+        <i class="icon-users" ng-if="i.metricname!='Revenue'"></i>
+        <i class="fa fa-rmb" ng-if="i.metricname=='Revenue'"></i>
         <div class="number">
             {{i.data[0]|number}}
             <i class="fa trend" ng-class="{'fa-level-up': (+i.data[1] > 0), 'fa-level-down':(+i.data[1]) < 0}"></i>
