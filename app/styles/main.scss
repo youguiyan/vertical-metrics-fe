@@ -78,6 +78,12 @@
     max-height: 550px;
     overflow: auto;
 }
+.metric-down {
+    color: red;
+}
+.metric-up {
+    color: green;
+}
 /* werid sparkline style */
 .jqstooltip {
     height: 20px!important;

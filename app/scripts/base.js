@@ -65,7 +65,7 @@ app.controller('idxCtrl', function($scope, $rootScope, $filter, $timeout) {
         $rootScope.$broadcast('dimensionChanged', v);
     }, true);
     $scope.dimension = {
-        isCheat: '', // default all value
+        isCheat: '0', // default all value
         isNewUser: ''
     };
     $scope.isCheatOptions = [

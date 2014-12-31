@@ -18,6 +18,10 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http, $timeout) {
         }).then(function(r) {
             $scope.lineData = r.data.data;
         });
+
+        $timeout(function() {
+            $scope.renderFlowPathChart(['App']);
+        }, 1000);
     }
     fetchData();
 
@@ -55,6 +59,7 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http, $timeout) {
             var NdluData = r.data;
             // renderNdluTable(NdluData.otherbringdata);
             $scope.ndluTableData = NdluData.otherbringdata;
+            if (NdluData.otherbringdata.data.length === 0) return;
             $timeout(function() {
                 window.renderFlowPathChart(NdluData, vertical);
             }, 100);
@@ -77,6 +82,17 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http, $timeout) {
 
 app.controller('popupCtrl', function($scope, $http) {
     var parent = $scope.parent;
+
+    $scope.checkUpDown = function(data) {
+        var _tmp = _.last(data, 2);
+        if (_tmp[1] > _tmp[0]) {
+            return 'metric-up';
+        }
+        if (_tmp[1] < _tmp[0]) {
+            return 'metric-down';
+        }
+        return '';
+    };
 
     function fetchData() {
         // Ajax to fetch

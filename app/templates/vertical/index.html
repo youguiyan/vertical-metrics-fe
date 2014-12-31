@@ -9,12 +9,6 @@
             <thead>
                 <tr>
                     <th ng-repeat="i in names track by $index">
-                        <!-- <span ng-if="i=='NDLU'">
-                            <i class="icon-moustache" rel="tooltip" data-placement="right"
-                                data-original-title="Help Document">
-                            </i>
-                            NDLU
-                        </span> -->
                         <span>{{i}}</span>
                     </th>
                 </tr>
@@ -22,9 +16,13 @@
             <tbody>
                 <tr ng-repeat="row in data track by $index">
                     <td ng-repeat="cell in row track by $index" ng-switch on="getCellType($index)">
-                        <span ng-switch-when="line" ng-click="openPopup(row)" sparkline data="getLineData(row)"></span>
+                        <span ng-switch-when="line" ng-click="openPopup(row)" sparkline data="getLineData(row)" style="cursor: pointer"></span>
                         <span ng-switch-when="ratio">{{cell|percentize}}</span>
-                        <span ng-switch-when="ndlu" ng-click="renderFlowPathChart(row)">{{cell}}</span>
+                        <span ng-switch-when="ndlu" ng-click="renderFlowPathChart(row)"
+                            style="cursor: pointer">
+                            <a ng-if="row[0]!='WDJ'">{{cell}}</a>
+                            <b ng-if="row[0]=='WDJ'" style="font-weight: normal">{{cell}}</b>
+                        </span>
                         <span ng-switch-when="origin">{{cell|number}}</span>
                         <span ng-switch-default>{{cell}}</span>
                     </td>
@@ -33,7 +31,7 @@
         </table>
     </div><!--/row-->
 
-    <div class="row flow-path-wrapper" ng-show="ndluTableData.data">
+    <div class="row flow-path-wrapper" ng-show="ndluTableData.data.length">
         <!-- replace with datav and d3 chord diy -->
         <div id="flow-path-chart" style="width: 800px;height: 600px"></div>
         <div class="flow-path-table">
