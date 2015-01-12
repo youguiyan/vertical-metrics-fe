@@ -89,3 +89,20 @@
     height: 20px!important;
     width: auto!important;
 }
+.navbar .navbar-nav li .dropdown-menu li a:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.navbar .navbar-nav li .dropdown-menu:after {
+    display: none;
+}
+.navbar .navbar-nav li .dropdown-menu:before {
+    display: none;
+}
+
+.top-opbar.page-report {
+    .btn-group, label {
+        display: none;
+    }
+}

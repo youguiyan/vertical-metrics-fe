@@ -1,8 +1,13 @@
-app.controller('idxCtrl', function($scope, $rootScope, $filter, $timeout) {
+app.controller('idxCtrl', function($scope, $rootScope, $filter, $timeout, $http) {
     // fake states
     $scope.dateTime = $filter('date')(getPrevDay(), 'yyyyMMdd');
     // $scope.dateTime = '20141201';
     $rootScope.timespan = '1440'; // default day mode
+
+    // fetch menu for daily report
+    $http.get(APIPREFIX + 'getReportMenu').then(function(r) {
+        $scope.reportMenus = r.data;
+    });
 
     $scope.getBaseVm = function() {
         return _.pick($scope, 'dateTime', 'timespan');

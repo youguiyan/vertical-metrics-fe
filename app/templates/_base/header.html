@@ -11,10 +11,22 @@
           <li ui-sref-active="active">
             <a ui-sref="vertical">Vertical Metrics</a>
           </li>
+
+          <li ui-sref-active="active" class="dropdown" dropdown>
+            <a class="dropdown-toggle" dropdown-toggle>
+                Report
+                <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li ng-repeat="menu in reportMenus">
+                    <a ui-sref="report({url: menu.url})">{{menu.name}}</a>
+                </li>
+            </ul>
+          </li>
         </ul>
     </div>
 
-    <div class="top-opbar">
+    <div class="top-opbar"  ng-class="{'page-report': state.is('report')}">
         <label>
             是否作弊
             <select name="isCheat" id="isCheat" ng-model="dimension.isCheat"

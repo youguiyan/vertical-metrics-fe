@@ -37,6 +37,11 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         'vertical': {
             url: '/vertical',
             templateUrl: 'templates/vertical/index.html'
+        },
+        'report': {
+            url: '/report/:url',
+            templateUrl: 'templates/report.html',
+            controller: 'reportCtrl'
         }
     };
 
@@ -46,6 +51,29 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // $locationProvider.html5Mode(true).hashPrefix('!');
     $urlRouterProvider.otherwise('/corp');
+});
+
+app.controller('reportCtrl', function($scope, $http, $state) {
+    $scope.$root.isReportPage = true;
+    // corpDaily?dateTime=20150109
+
+    var apiUrl = $state.params.url.replace('/api/', '');
+
+    function fetchData() {
+        $http.get(APIPREFIX + apiUrl, {
+            dateTime: $scope.dateTime
+        }).then(function(r) {
+            $('#placeholder-wrap').html(r.data);
+        });
+    }
+
+    fetchData();
+
+    $scope.$on('baseDateTimeChanged', fetchData);
+});
+
+app.run(function($state, $rootScope) {
+    $rootScope.state = $state;
 });
 
 app.factory('$notice', function() {
