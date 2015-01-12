@@ -61,7 +61,9 @@ app.controller('reportCtrl', function($scope, $http, $state) {
 
     function fetchData() {
         $http.get(APIPREFIX + apiUrl, {
-            dateTime: $scope.dateTime
+            params: {
+                dateTime: $scope.dateTime
+            }
         }).then(function(r) {
             $('#placeholder-wrap').html(r.data);
         });

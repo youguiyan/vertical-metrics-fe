@@ -1,7 +1,7 @@
 function renderFlowPathChart(NdluData, veritical) {
 
     var containerWidth = 800;
-    var containerHeight = 530;
+    var containerHeight = 550;
     var circlePadding = 15;
     var centerCiccleR = 60;
     var maxCircleR = 80;
@@ -57,7 +57,7 @@ function renderFlowPathChart(NdluData, veritical) {
                         fontWeight: 'bold'
                     }).add();
 
-                    var lastCircleY = 0;
+                    var lastCircleY = 25;
                     var i = 0;
                     var _leftLabel;
                     _.each(NdluData.verticaldata, function(val, key) {
