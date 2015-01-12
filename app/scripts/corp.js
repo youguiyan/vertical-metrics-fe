@@ -142,7 +142,7 @@ app.controller('mainChartCtrl', function($scope, $http, $q, $timeout, $filter) {
             return $http.get(APIPREFIX + 'metricData', {
                 params: _.extend({}, _.pick($scope, 'dateTimeStart', 'dateTimeEnd', 'timespan'), {
                     metricid: metricid
-                })
+                }, $scope.getBaseDimension())
             })
         })).then(function(resps) {
             $scope.chartLabels = [];

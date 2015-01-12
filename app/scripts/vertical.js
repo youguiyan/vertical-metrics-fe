@@ -20,7 +20,7 @@ app.controller('verticalTableCtrl', function($scope, $modal, $http, $timeout) {
         });
 
         $timeout(function() {
-            $scope.renderFlowPathChart(['App']);
+            $scope.renderFlowPathChart(['Apps']);
         }, 1000);
     }
     fetchData();

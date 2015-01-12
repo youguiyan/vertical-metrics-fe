@@ -1,8 +1,8 @@
 function renderFlowPathChart(NdluData, veritical) {
 
     var containerWidth = 800;
-    var containerHeight = 500;
-    var circlePadding = 10;
+    var containerHeight = 530;
+    var circlePadding = 15;
     var centerCiccleR = 60;
     var maxCircleR = 80;
     var minCircleR = 30;

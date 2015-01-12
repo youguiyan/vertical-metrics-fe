@@ -66,7 +66,6 @@
     }
 }
 .flow-path-wrapper {
-    text-align: center;
     position: relative;
     @include pie-clearfix;
 }
@@ -89,6 +88,10 @@
     height: 20px!important;
     width: auto!important;
 }
+span.metric-name {
+  font-size: 20px;
+}
+
 .navbar .navbar-nav li .dropdown-menu li a:hover {
     background-color: #fff;
     color: #000;

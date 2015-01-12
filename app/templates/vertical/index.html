@@ -3,7 +3,7 @@
 
     <!-- chart + metric card -->
     <div class="row">
-        <p>Tip: 点击各个 vertical 的 NDLU 数值,DLU 图表，查看详情~</p>
+        <p>Tip: 点击各个vertical的NDLU数值，DLU 图表来查看详情。所有vertical  DLU的计算口径：<a href="https://docs.google.com/a/wandoujia.com/document/d/15EFk28lQubPhTeTIxp1RmQkNbk_CNP4QNBkj8H8l4Fo" target="_blank">点击查看</a></p>
         <table class="table table-bordered vertical-metrics-table"
             style="min-height: 434px;">
             <thead>
@@ -32,6 +32,7 @@
     </div><!--/row-->
 
     <div class="row flow-path-wrapper" ng-show="ndluTableData.data.length">
+        <p>Tip: 下面内容表示一个vertical的NDLU的来源路径：左侧图形表示直接来自其他各vertical的DLU；右侧表格是全部来源路径</p>
         <!-- replace with datav and d3 chord diy -->
         <div id="flow-path-chart" style="width: 800px;height: 600px"></div>
         <div class="flow-path-table">
