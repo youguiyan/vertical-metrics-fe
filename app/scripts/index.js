@@ -21,6 +21,7 @@ _sparkHeight = 140;
 var app = angular.module('app', [
     'ngSanitize',
     'ngAnimate',
+    'angular-google-analytics',
 
     'ui.router',
     'ui.bootstrap',
@@ -193,4 +194,24 @@ app.filter('joinArr', function() {
     return function(arr) {
         return arr.join(',');
     }
+});
+
+app.config(function(AnalyticsProvider) {
+    // initial configuration
+    AnalyticsProvider.setAccount('UA-15790641-64');
+
+    // track all routes (or not)
+    AnalyticsProvider.trackPages(true);
+
+    // Optional set domain (Use 'none' for testing on localhost)
+    // AnalyticsProvider.setDomainName('XXX');
+
+    // Use display features plugin
+    AnalyticsProvider.useDisplayFeatures(true);
+
+    // Use analytics.js instead of ga.js
+    AnalyticsProvider.useAnalytics(true);
+
+    // change page event name
+    AnalyticsProvider.setPageEvent('$stateChangeSuccess');
 });
