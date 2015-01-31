@@ -75,10 +75,6 @@ app.controller('reportCtrl', function($scope, $http, $state) {
     $scope.$on('baseDateTimeChanged', fetchData);
 });
 
-app.run(function($state, $rootScope) {
-    $rootScope.state = $state;
-});
-
 app.factory('$notice', function() {
     return {
         success: function() {}
@@ -214,4 +210,8 @@ app.config(function(AnalyticsProvider) {
 
     // change page event name
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
+});
+
+app.run(function($state, $rootScope, Analytics) {
+    $rootScope.state = $state;
 });
